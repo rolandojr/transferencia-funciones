@@ -49,7 +49,7 @@ var app = new Vue({
         body: raw,
       };
 
-      let response = await fetch("https://solucionesm4g.site:8443/marcador-people/api-transferencia/crear-transferencia", requestOptions)
+      let response = await fetch("https://solucionesm4g.site:8443/marcador-people/api-funciones/crear-transferencia", requestOptions)
       let data = await response.json();
       return data;
 
