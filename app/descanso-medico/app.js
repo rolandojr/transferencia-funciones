@@ -7,20 +7,20 @@ var app = new Vue({
       file: null,
       fecha_inicio: null,
       fecha_inicio_formato:null,
-      fecha_fin:null,
+      fecha_fin: null,
       fecha_fin_formato:null,
       endpoint : null,
     },
     methods: {
       selectFile: function (event) {
         this.file = event.target.files[0];
-        console.log(this.file);
+        // console.log(this.file);
         if (this.file.type.indexOf('application/pdf') < 0) {
           this.message = "Debe ingresar un documento pdf";
           $('#exampleModal').modal();
           this.file = null;
         }
-        console.log(this.file);
+        // console.log(this.file);
       },
       sendFile: async function (archivo) {
         let formData = new FormData();
@@ -49,7 +49,7 @@ var app = new Vue({
           "fecha_fin": fecha_fin,
         });
   
-        console.log(raw);
+        // console.log(raw);
   
         var requestOptions = {
           method: 'POST',
@@ -59,30 +59,36 @@ var app = new Vue({
   
         let response = await fetch("https://solucionesm4g.site:8443/marcador-people/api-funciones/crear-descanso-medico", requestOptions)
         let data = await response.json();
-        console.log(data);
+        // console.log(data);
         return data;
   
       },
        convertDate: function(dateString){
-        var p = dateString.split(/\D/g);
-        return [p[2],p[1],p[0] ].join("-");
+        return dateString.replaceAll("/","-");
+        
         },
       createSolicitudDescanso: async function () {
+        this.fecha_inicio = document.getElementById("fecha_inicio").value;
+        this.fecha_fin = document.getElementById("fecha_fin").value;
+        // console.log(this.codigo);
+        // console.log(this.tipo);
+        // console.log(this.fecha_inicio);
+        // console.log(this.fecha_fin);
         if (this.codigo && this.tipo && this.file && this.fecha_inicio && this.fecha_fin ) {
-          console.log(this.codigo);
-          console.log(this.tipo);
-          console.log(this.convertDate(this.fecha_inicio));
-          console.log(this.convertDate(this.fecha_fin));
+          // console.log(this.codigo);
+          // console.log(this.tipo);
+          // console.log(this.fecha_inicio);
+          // console.log(this.fecha_fin);
           this.fecha_inicio_formato = this.convertDate(this.fecha_inicio);
           this.fecha_fin_formato = this.convertDate(this.fecha_fin);
           let data = await this.sendFile(this.file);
-          console.log(data);
+          // console.log(data);
           if (!data) {
             return;
           }
           let { id } = data;  
           let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-          console.log(urlEndpoint);
+          // console.log(urlEndpoint);
           this.endpoint = urlEndpoint;
           let response = await  this.sendSolicitudDescanso(this.codigo,this.endpoint,this.tipo,this.fecha_inicio_formato,this.fecha_fin_formato);
           let data_zoho =  JSON.parse(response.data)

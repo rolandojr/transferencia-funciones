@@ -9,13 +9,13 @@ var app = new Vue({
   methods: {
     selectFile: function (event) {
       this.file = event.target.files[0];
-      console.log(this.file);
+      // console.log(this.file);
       if (this.file.type.indexOf('application/pdf') < 0) {
         this.message = "Debe ingresar un documento pdf";
         $('#exampleModal').modal();
         this.file = null;
       }
-      console.log(this.file);
+      // console.log(this.file);
     },
     sendFile: async function (archivo) {
       let formData = new FormData();
@@ -41,7 +41,7 @@ var app = new Vue({
         "url": url
       });
 
-      console.log(raw);
+      // console.log(raw);
 
       var requestOptions = {
         method: 'POST',
@@ -57,13 +57,13 @@ var app = new Vue({
     createTransferencia: async function () {
       if (this.codigo && this.file) {
         let data = await this.sendFile(this.file);
-        console.log(data);
+        // console.log(data);
         if (!data) {
           return;
         }
         let { id } = data;  
         let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-        console.log(urlEndpoint);
+        // console.log(urlEndpoint);
         this.endpoint = urlEndpoint;
         let response = await  this.sendTransferencia(this.codigo,this.endpoint);
         let data_zoho =  JSON.parse(response.data)
