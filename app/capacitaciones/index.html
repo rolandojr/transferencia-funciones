@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitaciones</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container my-5 border border-secondary" id="app">
+        <main class="mt-4 mb-2">
+            <h1 class="text-center">Capacitaciones</h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="codigo">Codigo</label>
+                        <input type="text" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo" placeholder="Ingrese el codigo">
+                        <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select class="form-control" v-model="tipo" name="tipo" id="tipo">
+                            <option disabled value="">Seleccione un elemento</option>
+                            <option value="Interna - inducción">Interna - inducción</option>
+                            <option value="Interna - ordinaria">Interna - ordinaria</option>
+                            <option value="Externa">Externa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tema">Tema</label>
+                        <input type="text" class="form-control" id="tema" v-model="tema" aria-describedby="tema" placeholder="Ingrese el tema">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Fecha del Convenio</label>
+                        <div class="input-icons">
+                            <i class="fas fa-calendar-times icon"></i>
+                            <input class="datepicker input-field form-control" id="fecha_convenio"  data-date-format="dd/mm/yyyy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="">Fecha de Inicio</label>
+                    <div class="input-icons">
+                        <i class="fas fa-calendar-times icon"></i>
+                        <input class="datepicker input-field form-control" id="fecha_inicio"  data-date-format="dd/mm/yyyy">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="">Fecha de Fin</label>
+                    <div class="input-icons">
+                        <i class="fas fa-calendar-times icon"></i>
+                        <input type="text" class="datepicker input-field form-control" id="fecha_fin"  data-date-format="dd/mm/yyyy">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="convenio">Convenio</label>
+                <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="evaluacion_capacitado">Evaluacion al capacitado</label>
+                        <input type="text" class="form-control" id="evaluacion_capacitado" v-model="evaluacion_capacitado" aria-describedby="evaluacion_capacitado" placeholder="Evaluación">
+                        <small class="color-red" v-if="errors.evaluacion_capacitado" >Introduzca un número válido para Evaluación al capacitado</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="evaluacion_eficacia">Evaluacion de eficacia</label>
+                        <input type="text" class="form-control" id="evaluacion_eficacia" v-model="evaluacion_eficacia" aria-describedby="evaluacion_eficacia" placeholder="Evaluación">
+                        <small class="color-red" v-if="errors.evaluacion_eficacia" >Introduzca un número válido para Evaluación de eficacia</small>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="descuento_aplicable">Descuento Aplicable</label>
+                        <input type="text" class="form-control" id="descuento_aplicable" v-model="descuento_aplicable" aria-describedby="descuento_aplicable" placeholder="Descuento">
+                        <small class="color-red" v-if="errors.descuento_aplicable" >Introduzca un valor decimal válido para Descuento aplicable</small>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Requisito Legal</label>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="gridRadios" v-model="requisito_legal" id="gridRadios1" value="Si" checked>
+                              <label class="form-check-label" for="gridRadios1">
+                                Si
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="gridRadios" v-model="requisito_legal" id="gridRadios2" value="No">
+                              <label class="form-check-label" for="gridRadios2">
+                                No
+                              </label>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tiempo_retencion">Tiempo de retención</label>
+                        <select class="form-control" v-model="tiempo_retencion" name="tiempo_retencion" id="tiempo_retencion">
+                            <option disabled value="">Seleccione un elemento</option>
+                            <option value="6 meses">6 meses</option>
+                            <option value="1 año">1 año</option>
+                            <option value="2 años">2 años</option>
+                            <option value="3 años">3 años</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="entidad_educativa">Entidad educativa</label>
+                        <input type="text" class="form-control" id="entidad_educativa" v-model="entidad_educativa" aria-describedby="entidad_educativa" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="w-100"></div>
+
+            <hr>
+
+            <div class="d-flex justify-content-center">
+                <!-- Button trigger modal -->
+                <button type="submit" class="btn btn-primary" @click="createSolicitudDescanso"  :disabled="errors.codigo ||  errors.evaluacion_capacitado || errors.evaluacion_eficacia || errors.descuento_aplicable"  >
+                    Guardar
+                    <i class="fas fa-save"></i>
+                </button>
+            </div>
+        </main>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Solicitud de Descanso</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{message}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+        startDate: '-3d'
+        });
+    </script>
+    
+</body>
+</html>

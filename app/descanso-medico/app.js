@@ -20,6 +20,12 @@ var app = new Vue({
           $('#exampleModal').modal();
           this.file = null;
         }
+        let sizeFile = this.file.size / (1024*1024);
+        if (sizeFile > 5.0 ) {
+          this.message = "El tamaño no debe superar los 5 MB";
+          $('#exampleModal').modal();
+          this.file = null;
+        }
         // console.log(this.file);
       },
       sendFile: async function (archivo) {
