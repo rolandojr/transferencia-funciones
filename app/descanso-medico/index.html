@@ -19,6 +19,7 @@
             <div class="form-group">
                 <label for="codigo">Codigo</label>
                 <input type="email" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo" placeholder="Ingrese el codigo">
+                <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
             </div>
             <hr>
             <div class="form-group">
@@ -112,8 +113,9 @@
     <script src="app.js"></script>
     <script>
         $('.datepicker').datepicker({
-    startDate: '-3d'
-});
+        startDate: '-3d',
+        autoclose: true    
+        });
     </script>
 </body>
 </html>

@@ -10,23 +10,43 @@ var app = new Vue({
       fecha_fin: null,
       fecha_fin_formato:null,
       endpoint : null,
+      errors:{
+        codigo:null
+      },
+    },
+    watch: {
+      codigo: function(val) {
+        if (!isNaN(val)) {
+          this.errors.codigo = false
+          if (val.includes(".")) {
+            this.errors.codigo = true  
+          }
+        }else{
+          this.errors.codigo = true
+        }
+      },
     },
     methods: {
       selectFile: function (event) {
         this.file = event.target.files[0];
         // console.log(this.file);
-        if (this.file.type.indexOf('application/pdf') < 0) {
-          this.message = "Debe ingresar un documento pdf";
-          $('#exampleModal').modal();
-          this.file = null;
+        let anularArchivo = false;
+        if (this.file) {
+          if (this.file.type.indexOf('application/pdf') < 0) {
+            this.message = "Debe ingresar un documento pdf";
+            $('#exampleModal').modal();
+            anularArchivo = true;
+          }
+          let sizeFile = this.file.size / (1024*1024);
+          if (sizeFile > 5.0 ) {
+            this.message = "El tamaño no debe superar los 5 MB";
+            $('#exampleModal').modal();
+            anularArchivo = true;
+          }
+          if (anularArchivo) {
+            this.file = null;
+          }
         }
-        let sizeFile = this.file.size / (1024*1024);
-        if (sizeFile > 5.0 ) {
-          this.message = "El tamaño no debe superar los 5 MB";
-          $('#exampleModal').modal();
-          this.file = null;
-        }
-        // console.log(this.file);
       },
       sendFile: async function (archivo) {
         let formData = new FormData();

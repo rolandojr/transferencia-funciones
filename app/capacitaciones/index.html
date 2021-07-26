@@ -78,26 +78,24 @@
                     <div class="form-group">
                         <label for="evaluacion_capacitado">Evaluacion al capacitado</label>
                         <input type="text" class="form-control" id="evaluacion_capacitado" v-model="evaluacion_capacitado" aria-describedby="evaluacion_capacitado" placeholder="Evaluación">
-                        <small class="color-red" v-if="errors.evaluacion_capacitado" >Introduzca un número válido para Evaluación al capacitado</small>
+                        <small class="color-red" v-if="errors.evaluacion_capacitado" >Introduzca un número entero válido para Evaluación al capacitado (p.e 12) </small>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="evaluacion_eficacia">Evaluacion de eficacia</label>
                         <input type="text" class="form-control" id="evaluacion_eficacia" v-model="evaluacion_eficacia" aria-describedby="evaluacion_eficacia" placeholder="Evaluación">
-                        <small class="color-red" v-if="errors.evaluacion_eficacia" >Introduzca un número válido para Evaluación de eficacia</small>
+                        <small class="color-red" v-if="errors.evaluacion_eficacia" >Introduzca un número entero válido para Evaluación de eficacia (p.e 15)</small>
                     </div>
                 </div>
             </div>
-            
-            
             
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="descuento_aplicable">Descuento Aplicable</label>
                         <input type="text" class="form-control" id="descuento_aplicable" v-model="descuento_aplicable" aria-describedby="descuento_aplicable" placeholder="Descuento">
-                        <small class="color-red" v-if="errors.descuento_aplicable" >Introduzca un valor decimal válido para Descuento aplicable</small>
+                        <small class="color-red" v-if="errors.descuento_aplicable" >Introduzca un valor decimal válido para Descuento aplicable (p.e 12.15)</small>
                         
                     </div>
                 </div>
@@ -187,7 +185,8 @@
     <script src="app.js"></script>
     <script>
         $('.datepicker').datepicker({
-        startDate: '-3d'
+        startDate: '-3d',
+        autoclose: true
         });
     </script>
     

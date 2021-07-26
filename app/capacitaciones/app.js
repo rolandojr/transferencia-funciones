@@ -27,6 +27,9 @@ var app = new Vue({
       codigo: function(val) {
         if (!isNaN(val)) {
           this.errors.codigo = false
+          if (val.includes(".")) {
+            this.errors.codigo = true  
+          }
         }else{
           this.errors.codigo = true
         }
@@ -35,6 +38,9 @@ var app = new Vue({
 
         if (!isNaN(val)) {
           this.errors.evaluacion_capacitado = false
+          if (val.includes(".")) {
+            this.errors.evaluacion_capacitado = true  
+          }
         }else{
           this.errors.evaluacion_capacitado = true
         }
@@ -42,6 +48,9 @@ var app = new Vue({
       evaluacion_eficacia: function(val){
         if (!isNaN(val)) {
           this.errors.evaluacion_eficacia = false
+          if (val.includes(".")) {
+            this.errors.evaluacion_eficacia = true  
+          }
         }else{
           this.errors.evaluacion_eficacia = true
         }
@@ -57,7 +66,7 @@ var app = new Vue({
     methods: {
       selectFile: function (event) {
         this.file = event.target.files[0];
-        console.log(this.file);
+        // console.log(this.file);
         let anularArchivo = false;
         if (this.file) {
           if (this.file.type.indexOf('application/pdf') < 0) {
@@ -71,11 +80,9 @@ var app = new Vue({
             $('#exampleModal').modal();
             anularArchivo = true;
           }
-
           if (anularArchivo) {
             this.file = null;
           }
-
         }
         
         // console.log(this.file);
@@ -115,7 +122,7 @@ var app = new Vue({
           "entidad_educativa_externa": entidad_educativa_externa,
           "url": url,
         });
-        // console.log(raw);
+        console.log(raw);
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
@@ -134,18 +141,18 @@ var app = new Vue({
         this.fecha_fin = document.getElementById("fecha_fin").value;
         this.fecha_convenio = document.getElementById("fecha_convenio").value;
         
-        console.log(this.codigo);
-        console.log(this.tipo);
-        console.log(this.tema);
-        console.log(this.convertDate(this.fecha_convenio));
-        console.log(this.convertDate(this.fecha_inicio));
-        console.log(this.convertDate(this.fecha_fin));
-        console.log(this.evaluacion_capacitado)
-        console.log(this.evaluacion_eficacia)
-        console.log(this.descuento_aplicable)
-        console.log(this.requisito_legal)
-        console.log(this.tiempo_retencion)
-        console.log(this.entidad_educativa)
+        // console.log(this.codigo);
+        // console.log(this.tipo);
+        // console.log(this.tema);
+        // console.log(this.convertDate(this.fecha_convenio));
+        // console.log(this.convertDate(this.fecha_inicio));
+        // console.log(this.convertDate(this.fecha_fin));
+        // console.log(this.evaluacion_capacitado)
+        // console.log(this.evaluacion_eficacia)
+        // console.log(this.descuento_aplicable)
+        // console.log(this.requisito_legal)
+        // console.log(this.tiempo_retencion)
+        // console.log(this.entidad_educativa)
 
         if (this.codigo && this.tipo && this.file && this.tema && this.fecha_convenio
            && this.fecha_inicio && this.fecha_fin && this.evaluacion_capacitado && this.evaluacion_eficacia 
@@ -153,11 +160,11 @@ var app = new Vue({
           this.fecha_convenio = this.convertDate(this.fecha_convenio);
           this.fecha_inicio = this.convertDate(this.fecha_inicio);
           this.fecha_fin = this.convertDate(this.fecha_fin);
-          console.log("***************************")
-          console.log(this.fecha_convenio);
-          console.log(this.fecha_inicio);
-          console.log(this.fecha_fin);
-          console.log("***************************")
+          // console.log("***************************")
+          // console.log(this.fecha_convenio);
+          // console.log(this.fecha_inicio);
+          // console.log(this.fecha_fin);
+          // console.log("***************************")
           let data = await this.sendFile(this.file);
           console.log(data);
           if (!data) {
@@ -168,7 +175,7 @@ var app = new Vue({
           // console.log(urlEndpoint);
           this.endpoint = urlEndpoint;
           let response = await  this.sendCapacitacion(this.codigo,this.tipo,this.tema,this.fecha_convenio,this.fecha_inicio,this.fecha_fin,this.evaluacion_capacitado,
-            this.evaluacion_eficacia,this.descuento_aplicable,this.requisito_legal,this.tiempo_retencion,this.entidad_educativa);
+            this.evaluacion_eficacia,this.descuento_aplicable,this.requisito_legal,this.tiempo_retencion,this.entidad_educativa,this.endpoint);
           let data_zoho =  JSON.parse(response.data)
           if (data_zoho.details.output == "0"){
             this.message = "Se han registrado éxitosamente";  
