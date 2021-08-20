@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bono de Fallecimiento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container my-5 border border-secondary" id="app">
+        <main class="mt-4 mb-2">
+            <h1 class="text-center">Bono de Fallecimiento</h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="codigo">Cod. de Empleado</label>
+                        <input type="text" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo" placeholder="Ingrese el codigo">
+                        <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input type="text" class="form-control" id="dni" v-model="dni" aria-describedby="dni" placeholder="Ingrese DNI">
+                        <small class="color-red" v-if="errors.dni" >Introduzca DNI</small>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="familiar">Familiar</label>
+                        <select class="form-control" v-model="familiar" name="familiar" id="familiar">
+                            <option disabled value="">Seleccione un elemento</option>
+                            <option value="Padre">Padre</option>
+                            <option value="Madre">Madre</option>
+                            <option value="Esposo(a)">Esposo(a)</option>
+                            <option value="Hijo(a)">Hijo(a)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dato_familiar">Datos Familiar</label>
+                        <textarea class="form-control" id="dato_familiar" v-model="dato_familiar" rows="3" aria-describedby="dato" placeholder="Ingrese dato(s)"></textarea>
+                        <small class="color-red" v-if="errors.dato_familiar" >Introduzca Dato Familiar</small>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Validación</label>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="gridRadios" v-model="validacion" id="gridRadios1" value="Si" checked>
+                              <label class="form-check-label" for="gridRadios1">
+                                Si
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="gridRadios" v-model="validacion" id="gridRadios2" value="No">
+                              <label class="form-check-label" for="gridRadios2">
+                                No
+                              </label>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-12">
+                   <!--
+                    <div class="form-group">
+                        <label for="">Archivo</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-cloud-upload-alt"></i></span>
+                            </div>
+                            <div class="custom-file">
+                             <input type="file" class="custom-file-input" @change="selectFile($event)" id="archivo"> 
+                              <label class="custom-file-label" for="archivo">Elija el archivo</label>
+                              <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
+                            </div>
+                            <small class="color-red" v-if="errors.archivo" >Seleccionar un documento</small>
+                        </div>
+                    </div>
+                 -->
+                 <div class="form-group">
+                    <label for="convenio">Archivo</label>
+                    <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
+                </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div class="w-100"></div>
+
+            <hr>
+
+            <div class="d-flex justify-content-center">
+                <!-- Button trigger modal -->
+                <button type="submit" class="btn btn-primary" @click="createSolicitudBonoFallecimiento"  :disabled="errors.codigo ||  errors.evaluacion_capacitado || errors.evaluacion_eficacia || errors.descuento_aplicable"  >
+                    Enviar
+                    <i class="fas fa-arrow-alt-circle-right"></i>
+                </button>
+            </div>
+        </main>
+
+         <!-- Modal -->
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Solicitud de Bono Familiar</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                     {{message}}
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                 </div>
+             </div>
+         </div>
+     </div>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="app.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+        startDate: '-3d',
+        autoclose: true
+        });
+    </script>
+    
+</body>
+</html>
