@@ -74,8 +74,9 @@ var app = new Vue({
         headers: myHeaders,
         body: raw,
       };
-
-      let response = await fetch("https://solucionesm4g.site:8443/marcador-people/api-funciones/crear-transferencia", requestOptions)
+      let url_remoto = "https://solucionesm4g.site:8443/marcador-people";
+      let url_local  = "http://localhost:8080"
+      let response = await fetch(`${url_remoto}/api-funciones/crear-transferencia`, requestOptions)
       let data = await response.json();
       return data;
 

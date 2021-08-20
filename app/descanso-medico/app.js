@@ -83,7 +83,9 @@ var app = new Vue({
           body: raw,
         };
   
-        let response = await fetch("https://solucionesm4g.site:8443/marcador-people/api-funciones/crear-descanso-medico", requestOptions)
+        let url_remoto = "https://solucionesm4g.site:8443/marcador-people";
+        let url_local  = "http://localhost:8080";
+        let response = await fetch(`${url_remoto}/api-funciones/crear-descanso-medico`, requestOptions)
         let data = await response.json();
         // console.log(data);
         return data;

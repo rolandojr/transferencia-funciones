@@ -1,0 +1,13 @@
+.autorizacion-descuento-detalles, .para-ser-completado-touring {
+    margin-bottom: 20px;
+}
+
+body {   
+    font-family: 'Times New Roman', Times, serif;
+}
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    table-layout: fixed;
+}

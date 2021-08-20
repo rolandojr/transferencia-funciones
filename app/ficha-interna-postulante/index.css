@@ -1,0 +1,38 @@
+.input-icons i {
+    position: absolute;
+}
+  
+.input-icons {
+    width: 100%;
+    margin-bottom: 10px;
+}
+  
+.icon {
+    padding: 10px;
+    color: blue;
+    min-width: 50px;
+    text-align: center;
+}
+  
+.input-field {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+  
+h1 ,p, label, table, h3 {
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+.color-red{
+    color:red;
+    font-size: 11px;
+    
+}
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    table-layout: fixed;
+}
+
