@@ -58,24 +58,38 @@ var app = new Vue({
               redirect: 'follow'
             };
       
-            let response = await  fetch("http://localhost:8080/api-funciones/crear-registro-autorizacion-descuento", requestOptions)
+            let url_remoto = "https://solucionesm4g.site:8443/marcador-people";
+            let url_local  = "http://localhost:8080";
+            let response = await  fetch(`${url_remoto}/api-funciones/crear-registro-autorizacion-descuento`, requestOptions)
             let data = await response.json() ;
             return data;
+          },
+          setTwoDecimals: function(monto_descontar,propiedad) {
+            var numberFloat = parseFloat(monto_descontar[propiedad]);
+            if (!isNaN(numberFloat)) {
+              monto_descontar[propiedad] = numberFloat.toFixed(2);
+            }
+          },
+          setNumber: function(monto_descontar){
+            var numberInteger = parseInt(monto_descontar["numero_cuotas"])
+            if (!isNaN(numberInteger)) {
+              monto_descontar["numero_cuotas"] = numberInteger.toFixed(0);
+            }
           },
         sendAutorizacionDescuento: async function () {
             
             let response =  await this.sendData();
-            // let data_zoho =  JSON.parse(response.data)
-            //     if (data_zoho.details.output == "0"){
-            //       this.message = "Se han registrado éxitosamente";  
-            //       $('#exampleModal').modal();
-            //       setTimeout(() => {
-            //         location.reload();  
-            //       }, 3000);        
-            //     }else{
-            //        this.message =  data_zoho.details.output;
-            //        $('#exampleModal').modal();
-            //     }
+            let data_zoho =  JSON.parse(response.data)
+                if (data_zoho.details.output == "0"){
+                  this.message = "Se han registrado éxitosamente";  
+                  $('#exampleModal').modal();
+                  setTimeout(() => {
+                    location.reload();  
+                  }, 4000);        
+                }else{
+                   this.message =  data_zoho.details.output;
+                   $('#exampleModal').modal();
+                }
           },
     }
 });

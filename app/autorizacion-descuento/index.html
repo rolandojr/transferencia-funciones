@@ -52,7 +52,7 @@
                         <label for="">Motivo de descuento</label>
                         <div class="form-group">
                             <input type="text" class="form-control" v-model="motivo_descuento"
-                                placeholder="Ingrese el DNI">
+                                placeholder="Ingrese su Motivo de descuento">
                         </div>
                     </div>
                 </div>
@@ -65,13 +65,13 @@
                     <div class="col-md-6">
                         <label for="">Indica si genera interes</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" v-model="genera_interes" placeholder="">
+                            <input type="text" class="form-control" v-model="genera_interes" placeholder="Indique si gana interes ">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="">Porcentaje de Interes <strong> (%) </strong> </label>
                         <div class="form-group">
-                            <input type="text" class="form-control" v-model="porcentaje_interes" placeholder="Ingrese el porcentaje">
+                            <input type="text" class="form-control" v-model="porcentaje_interes" placeholder="Ingrese el porcentaje de interes">
                         </div>
                     </div>
                 </div>
@@ -98,12 +98,12 @@
                                         <i class="far fa-trash-alt"></i>
                                        </button> 
                                    </td>
-                                   <td> <input class="form-control" style="width: 120px;" type="text" v-model="monto_descontar.descripcion"> </td>     
-                                   <td> <input class="form-control" style="width: 120px;" type="text" v-model="monto_descontar.precio_unitario"> </td>     
-                                   <td> <input class="form-control" style="width: 200px;" type="text" v-model="monto_descontar.importe_total"> </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="text" v-model="monto_descontar.importe_total_contabilizado"> </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="text" v-model="monto_descontar.numero_cuotas"> </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="text" v-model="monto_descontar.monto_por_cuotas"> </td> 
+                                   <td> <input class="form-control" style="width: 120px;" type="text"  v-model="monto_descontar.descripcion"> </td>     
+                                   <td> <input class="form-control" style="width: 120px;" type="number" step=".01" v-model="monto_descontar.precio_unitario" @change="setTwoDecimals(monto_descontar,'precio_unitario')" > </td>     
+                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.importe_total" @change="setTwoDecimals(monto_descontar,'importe_total')" > </td> 
+                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.importe_total_contabilizado" @change="setTwoDecimals(monto_descontar,'importe_total_contabilizado')" > </td> 
+                                   <td> <input class="form-control" style="width: 200px;" type="number"  v-model="monto_descontar.numero_cuotas" @change="setNumber(monto_descontar)" > </td> 
+                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.monto_por_cuotas" @change="setTwoDecimals(monto_descontar,'monto_por_cuotas')" > </td> 
                                 </tr>
                             </tbody>
                         </table>
