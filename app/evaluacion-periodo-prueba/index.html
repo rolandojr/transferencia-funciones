@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container my-5 border border-secondary" id="app">
@@ -24,7 +25,6 @@
                         <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="puesto">Puesto</label>
@@ -32,7 +32,8 @@
                         <small class="color-red" v-if="errors.puesto" >Introduzca Puesto</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <label for="">Fecha de ingreso</label>
                     <div class="input-icons">
@@ -40,7 +41,6 @@
                         <input type="text" class="datepicker input-field form-control" id="fecha_ingreso"  data-date-format="dd/mm/yyyy">
                     </div>
                 </div>
-                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <label for="">Fecha de Evaluación</label>
                     <div class="input-icons">
@@ -48,7 +48,8 @@
                         <input type="text" class="datepicker input-field form-control" id="fecha_evaluacion"  data-date-format="dd/mm/yyyy">
                     </div>
                 </div>
-                <div class="col-md-6"></div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="evaluador">Nombre del evaluador</label>
@@ -56,7 +57,6 @@
                         <small class="color-red" v-if="errors.evaluador" >Introduzca Puesto</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="puesto">Cargo</label>
@@ -64,8 +64,6 @@
                         <small class="color-red" v-if="errors.cargo" >Introduzca cargo</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
-                
             </div>
             <div class="w-100"></div>
             <h2 class="text-left">Factor Responsabilidad: Ponderación 20%</h2>
@@ -88,7 +86,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_responsabilidad">Descripción de Factor Resposanbilidad</label>
-                        <select class="form-control" v-model="d_f_responsabilidad" name="d_f_responsabilidad" id="d_f_responsabilidad">
+                        <select class="form-control" v-model="d_f_responsabilidad" name="d_f_responsabilidad" id="d_f_responsabilidad" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="Persona irresponsable sin interés en el cumplimiento de las funciones">Persona irresponsable sin interés en el cumplimiento de las funciones</option>
                             <option value="Demuestra poco interés por su trabajo">Demuestra poco interés por su trabajo</option>
@@ -101,7 +99,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_responsabilidad">Valores de Factor Resposanbilidad</label>
-                        <select class="form-control" v-model="v_f_responsabilidad" name="v_f_responsabilidad" id="v_f_responsabilidad">
+                        <select class="form-control" v-model="v_f_responsabilidad" name="v_f_responsabilidad" id="v_f_responsabilidad"disabled>
                             <option disabled value="">-Select-</option>
                             <option value="5%">5%</option>
                             <option value="16%">16%</option>
@@ -133,7 +131,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_habilidad">Descripción Factor Habilidad</label>
-                        <select class="form-control" v-model="d_f_habilidad" name="d_f_habilidad" id="d_f_habilidad">
+                        <select class="form-control" v-model="d_f_habilidad" name="d_f_habilidad" id="d_f_habilidad" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="Es desorganizado, pierde mucho el tiempo y siempre se atraza">Es desorganizado, pierde mucho el tiempo y siempre se atraza</option>
                             <option value="Algunas veces es desorganizado ocasionando pérdida de tiempo">Algunas veces es desorganizado ocasionando pérdida de tiempo</option>
@@ -146,7 +144,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_habilidad">Valores para Factor Habilidad</label>
-                        <select class="form-control" v-model="v_f_habilidad" name="v_f_habilidad" id="v_f_habilidad">
+                        <select class="form-control" v-model="v_f_habilidad" name="v_f_habilidad" id="v_f_habilidad" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="3%">3%</option>
                             <option value="8%">8%</option>
@@ -178,7 +176,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_iniciativa">Descripción factor iniciativa</label>
-                        <select class="form-control" v-model="d_f_iniciativa" name="d_f_iniciativa" id="d_f_iniciativa">
+                        <select class="form-control" v-model="d_f_iniciativa" name="d_f_iniciativa" id="d_f_iniciativa" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="Siempre se le debe decir lo que le corresponde hacer">Siempre se le debe decir lo que le corresponde hacer</option>
                             <option value="Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa">Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa</option>
@@ -191,7 +189,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_iniciativa">Valores de Factor Resposanbilidad</label>
-                        <select class="form-control" v-model="v_f_iniciativa" name="v_f_iniciativa" id="v_f_iniciativa">
+                        <select class="form-control" v-model="v_f_iniciativa" name="v_f_iniciativa" id="v_f_iniciativa" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="3%">3%</option>
                             <option value="8%">8%</option>
@@ -223,7 +221,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_disciplina">Descripción para factor disciplina</label>
-                        <select class="form-control" v-model="d_f_disciplina" name="d_f_disciplina" id="d_f_disciplina">
+                        <select class="form-control" v-model="d_f_disciplina" name="d_f_disciplina" id="d_f_disciplina" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica">Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica</option>
                             <option value="Eventualmente incumple con los reglamentos, norma y con la autoridad">Eventualmente incumple con los reglamentos, norma y con la autoridad</option>
@@ -236,7 +234,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_disciplina">Valores para factor disciplina</label>
-                        <select class="form-control" v-model="v_f_disciplina" name="v_f_disciplina" id="v_f_disciplina">
+                        <select class="form-control" v-model="v_f_disciplina" name="v_f_disciplina" id="v_f_disciplina" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="5%">5%</option>
                             <option value="15%">15%</option>
@@ -268,7 +266,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_produccion">Descripción de factor producción</label>
-                        <select class="form-control" v-model="d_f_produccion" name="d_f_produccion" id="d_f_produccion">
+                        <select class="form-control" v-model="d_f_produccion" name="d_f_produccion" id="d_f_produccion" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar">La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar</option>
                             <option value="La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección">La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección</option>
@@ -281,7 +279,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_produccion">Valores para factor producción de trabajo</label>
-                        <select class="form-control" v-model="v_f_produccion" name="v_f_produccion" id="v_f_produccion">
+                        <select class="form-control" v-model="v_f_produccion" name="v_f_produccion" id="v_f_produccion" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="10%">10%</option>
                             <option value="21%">21%</option>
@@ -313,7 +311,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="d_f_relacion">Descripción relaciones interpersonales</label>
-                        <select class="form-control" v-model="d_f_relacion" name="d_f_relacion" id="d_f_relacion">
+                        <select class="form-control" v-model="d_f_relacion" name="d_f_relacion" id="d_f_relacion"disabled>
                             <option disabled value="">-Select-</option>
                             <option value="Sus relaciones interpersonales no son apropiadas generando conflictos laborales">Sus relaciones interpersonales no son apropiadas generando conflictos laborales</option>
                             <option value="Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral">Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral</option>
@@ -326,7 +324,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="v_f_relacion">Valores Relaciones Interpersonales</label>
-                        <select class="form-control" v-model="v_f_relacion" name="v_f_relacion" id="v_f_relacion">
+                        <select class="form-control" v-model="v_f_relacion" name="v_f_relacion" id="v_f_relacion" disabled>
                             <option disabled value="">-Select-</option>
                             <option value="5%">5%</option>
                             <option value="11%">11%</option>
@@ -339,6 +337,15 @@
             </div>
             <div class="w-100"></div>
             <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <h2> <label for="puesto">Ponderacion Total</label> </h2>
+                        <input type="text" class="form-control" id="ponderacion_total" v-model="ponderacion_total" aria-describedby="puesto" placeholder="Ponderacion" disabled>
+                    </div>
+                </div>
+            </div>
 
             <div class="d-flex justify-content-center">
                 <!-- Button trigger modal -->
