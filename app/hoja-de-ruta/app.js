@@ -8,6 +8,7 @@ var app = new Vue({
     errors:{
       codigo:null,
     },
+    loading:null,
   },
   watch:{
     codigo: function(val) {
@@ -27,11 +28,6 @@ var app = new Vue({
       // console.log(this.file);
         let anularArchivo = false;
         if (this.file) {
-          if (this.file.type.indexOf('application/pdf') < 0) {
-            this.message = "Debe ingresar un documento pdf";
-            $('#exampleModal').modal();
-            anularArchivo = true;
-          }
           let sizeFile = this.file.size / (1024*1024);
           if (sizeFile > 5.0 ) {
             this.message = "El tamaño no debe superar los 5 MB";
@@ -82,6 +78,7 @@ var app = new Vue({
 
     },
     createHojaRuta: async function () {
+      this.loading=true;
       if (this.codigo && this.file) {
         let data = await this.sendFile(this.file);
         // console.log(data);
@@ -98,7 +95,7 @@ var app = new Vue({
           this.message = "Se han registrado éxitosamente";  
           $('#exampleModal').modal();
           setTimeout(() => {
-            location.reload();  
+            // location.reload();  
           }, 3000);
           
         }else{
@@ -109,7 +106,8 @@ var app = new Vue({
         this.message = "Debe ingresar ambos campos";
         $('#exampleModal').modal();
       }
-      
+
+      this.loading=false;
     },
 
   }

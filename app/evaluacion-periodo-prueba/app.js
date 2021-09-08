@@ -35,7 +35,11 @@ var app = new Vue({
       fecha_evaluacion: null,
       evaluador: null,
       cargo: null,
-    }
+    },
+    loading:null,
+    fecha_ingreso_c:null,
+    fecha_evaulacion_c : null,
+
   },
   watch: {
     codigo: function (val) {
@@ -189,7 +193,7 @@ var app = new Vue({
 
   },
   methods: {
-    sendEvaluacionPeriodoPrueba: async function (codigo, puesto, fecha_ingreso, fecha_evaluacion, evaluador, cargo, f_responsabilidad, d_f_responsabilidad, v_f_responsabilidad, f_habilidad,d_f_habilidad, v_f_habilidad, f_iniciativa, d_f_iniciativa, v_f_iniciativa, f_disciplina, d_f_disciplina, v_f_disciplina, f_produccion, d_f_produccion, v_f_produccion, f_relacion, d_f_relacion, v_f_relacion) {
+    sendEvaluacionPeriodoPrueba: async function (codigo, puesto, fecha_ingreso, fecha_evaluacion, evaluador, cargo, f_responsabilidad, d_f_responsabilidad, v_f_responsabilidad, f_habilidad,d_f_habilidad, v_f_habilidad, f_iniciativa, d_f_iniciativa, v_f_iniciativa, f_disciplina, d_f_disciplina, v_f_disciplina, f_produccion, d_f_produccion, v_f_produccion, f_relacion, d_f_relacion, v_f_relacion,ponderacion_total) {
 
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -219,6 +223,7 @@ var app = new Vue({
         "f_relacion": f_relacion,
         "d_f_relacion": d_f_relacion,
         "v_f_relacion": v_f_relacion,
+        "ponderacion_total": ponderacion_total,
       });
       console.log(raw);
       var requestOptions = {
@@ -233,13 +238,17 @@ var app = new Vue({
       console.log(data);
       return data;
     },
-    convertDate: function (dateString) {
-      return dateString.replaceAll("/", "-");
-    },
+    convertDate: function(dateString){
+      let fecha_sin_formato =  dateString.split("T")[0];
+      let fecha_separada = fecha_sin_formato.split("-");
+      let fecha_con_formato = fecha_separada[2] + "-"+fecha_separada[1]+"-"+ fecha_separada[0];
+      console.log(fecha_con_formato);
+      return fecha_con_formato;
+     },
     createSolicitudEvaluacionPeriodoPrueba: async function () {
-
-      this.fecha_ingreso_c = document.getElementById("fecha_ingreso").value;
-      this.fecha_evaulacion_c = document.getElementById("fecha_evaluacion").value;
+      this.loading=true;
+      // this.fecha_ingreso_c = document.getElementById("fecha_ingreso").value;
+      // this.fecha_evaulacion_c = document.getElementById("fecha_evaluacion").value;
      // console.log(this.fecha_ingreso_c);
       //console.log(this.fecha_evaulacion_c);
       //this.codigo && this.puesto && this.fecha_ingreso && this.fecha_evaluacion && this.evaluador && this.cargo && this.f_responsabilidad && this.d_f_responsabilidad && this.v_f_responsabilidad && this.f_habilidad && this.d_f_habilidad && this.v_f_habilidad && this.f_iniciativa && this.d_f_iniciativa && this.v_f_iniciativa && this.f_disciplina && this.d_f_disciplina && this.v_f_disciplina && this.f_produccion && this.d_f_produccion && this.v_f_produccion && this.f_relacion && this.d_f_relacion && this.v_f_relacion
@@ -249,7 +258,7 @@ var app = new Vue({
         this.fecha_evaluacion = this.convertDate(this.fecha_evaulacion_c);
 
         console.log(this.fecha_ingreso); 
-        let response = await this.sendEvaluacionPeriodoPrueba(this.codigo, this.puesto, this.fecha_ingreso, this.fecha_evaluacion, this.evaluador, this.cargo, this.f_responsabilidad, this.d_f_responsabilidad, this.v_f_responsabilidad, this.f_habilidad, this.d_f_habilidad, this.v_f_habilidad, this.f_iniciativa, this.d_f_iniciativa, this.v_f_iniciativa, this.f_disciplina, this.d_f_disciplina, this.v_f_disciplina, this.f_produccion, this.d_f_produccion, this.v_f_produccion, this.f_relacion, this.d_f_relacion, this.v_f_relacion);
+        let response = await this.sendEvaluacionPeriodoPrueba(this.codigo, this.puesto, this.fecha_ingreso, this.fecha_evaluacion, this.evaluador, this.cargo, this.f_responsabilidad, this.d_f_responsabilidad, this.v_f_responsabilidad, this.f_habilidad, this.d_f_habilidad, this.v_f_habilidad, this.f_iniciativa, this.d_f_iniciativa, this.v_f_iniciativa, this.f_disciplina, this.d_f_disciplina, this.v_f_disciplina, this.f_produccion, this.d_f_produccion, this.v_f_produccion, this.f_relacion, this.d_f_relacion, this.v_f_relacion,this.ponderacion_total);
         console.log(response); 
         let data_zoho = JSON.parse(response.data)
         if (data_zoho.details.output == "0") {
@@ -257,7 +266,7 @@ var app = new Vue({
           $('#exampleModal').modal();
           setTimeout(() => {
             location.reload();
-          }, 3000);
+          }, 5000);
         } else {
           this.message = data_zoho.details.output;
           $('#exampleModal').modal();
@@ -266,6 +275,7 @@ var app = new Vue({
         this.message = "Debe ingresar todos los campos";
         $('#exampleModal').modal();
       }
+      this.loading=false;
 
     },
     ponderacionTotal: function() {

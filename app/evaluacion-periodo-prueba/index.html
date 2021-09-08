@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/vue-datetime.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container my-5 border border-secondary" id="app">
@@ -36,16 +37,24 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="">Fecha de ingreso</label>
-                    <div class="input-icons">
+                    <!-- <div class="input-icons">
                         <i class="fas fa-calendar-times icon"></i>
                         <input type="text" class="datepicker input-field form-control" id="fecha_ingreso"  data-date-format="dd/mm/yyyy">
+                    </div> -->
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime  v-model="fecha_ingreso_c" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="">Fecha de Evaluación</label>
-                    <div class="input-icons">
+                    <!-- <div class="input-icons">
                         <i class="fas fa-calendar-times icon"></i>
                         <input type="text" class="datepicker input-field form-control" id="fecha_evaluacion"  data-date-format="dd/mm/yyyy">
+                    </div> -->
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime v-model="fecha_evaulacion_c"  style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
             </div>
@@ -69,7 +78,7 @@
             <h2 class="text-left">Factor Responsabilidad: Ponderación 20%</h2>
             <hr>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col">
                     <div class="form-group">
                         <label for="f_responsabilidad">Factor Responsabilidad</label>
                         <select class="form-control" v-model="f_responsabilidad" name="f_responsabilidad" id="f_responsabilidad">
@@ -81,22 +90,23 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
+            </div>
                 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_responsabilidad">Descripción de Factor Resposanbilidad</label>
-                        <select class="form-control" v-model="d_f_responsabilidad" name="d_f_responsabilidad" id="d_f_responsabilidad" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="Persona irresponsable sin interés en el cumplimiento de las funciones">Persona irresponsable sin interés en el cumplimiento de las funciones</option>
-                            <option value="Demuestra poco interés por su trabajo">Demuestra poco interés por su trabajo</option>
-                            <option value="Asume las Responsabilidades a nivel satisfactorio">Asume las Responsabilidades a nivel satisfactorio</option>
-                            <option value="Muy responsable, muestra verdadero interés por el trabajo">Muy responsable, muestra verdadero interés por el trabajo</option>
-                        </select>
+               <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="d_f_responsabilidad">Descripción de Factor Resposanbilidad</label>
+                            <select class="form-control" v-model="d_f_responsabilidad" name="d_f_responsabilidad" id="d_f_responsabilidad" disabled>
+                                <option disabled value="">-Select-</option>
+                                <option value="Persona irresponsable sin interés en el cumplimiento de las funciones">Persona irresponsable sin interés en el cumplimiento de las funciones</option>
+                                <option value="Demuestra poco interés por su trabajo">Demuestra poco interés por su trabajo</option>
+                                <option value="Asume las Responsabilidades a nivel satisfactorio">Asume las Responsabilidades a nivel satisfactorio</option>
+                                <option value="Muy responsable, muestra verdadero interés por el trabajo">Muy responsable, muestra verdadero interés por el trabajo</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
+               </div>
+                <div class="">
                     <div class="form-group">
                         <label for="v_f_responsabilidad">Valores de Factor Resposanbilidad</label>
                         <select class="form-control" v-model="v_f_responsabilidad" name="v_f_responsabilidad" id="v_f_responsabilidad"disabled>
@@ -108,238 +118,201 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
-            </div>
-            <div class="w-100"></div>
             <h2 class="text-left">Factor Habilidad para organizar el trabajo: Ponderación 10%</h2>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="f_habilidad">Factor Habilidad</label>
-                        <select class="form-control" v-model="f_habilidad" name="f_habilidad" id="f_habilidad">
-                            <option disabled value="">-Select-</option>
-                            <option value="Deficiente">Deficiente</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Excelente">Excelente</option>
-                        </select>
-                    </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="f_habilidad">Factor Habilidad</label>
+                    <select class="form-control" v-model="f_habilidad" name="f_habilidad" id="f_habilidad">
+                        <option disabled value="">-Select-</option>
+                        <option value="Deficiente">Deficiente</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Excelente">Excelente</option>
+                    </select>
                 </div>
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_habilidad">Descripción Factor Habilidad</label>
-                        <select class="form-control" v-model="d_f_habilidad" name="d_f_habilidad" id="d_f_habilidad" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="Es desorganizado, pierde mucho el tiempo y siempre se atraza">Es desorganizado, pierde mucho el tiempo y siempre se atraza</option>
-                            <option value="Algunas veces es desorganizado ocasionando pérdida de tiempo">Algunas veces es desorganizado ocasionando pérdida de tiempo</option>
-                            <option value="Es organizado, distribuye bien el tiempo para cumplir con su trabajo">Es organizado, distribuye bien el tiempo para cumplir con su trabajo</option>
-                            <option value="Es organizado, distribuye y utiliza bien su tiempo para cumplir con su trabajo">Es organizado, distribuye y utiliza bien su tiempo para cumplir con su trabajo</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="v_f_habilidad">Valores para Factor Habilidad</label>
-                        <select class="form-control" v-model="v_f_habilidad" name="v_f_habilidad" id="v_f_habilidad" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="3%">3%</option>
-                            <option value="8%">8%</option>
-                            <option value="9%">9%</option>
-                            <option value="10%">10%</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
+            <div class="">
+                <div class="form-group">
+                    <label for="d_f_habilidad">Descripción Factor Habilidad</label>
+                    <select class="form-control" v-model="d_f_habilidad" name="d_f_habilidad" id="d_f_habilidad" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="Es desorganizado, pierde mucho el tiempo y siempre se atraza">Es desorganizado, pierde mucho el tiempo y siempre se atraza</option>
+                        <option value="Algunas veces es desorganizado ocasionando pérdida de tiempo">Algunas veces es desorganizado ocasionando pérdida de tiempo</option>
+                        <option value="Es organizado, distribuye bien el tiempo para cumplir con su trabajo">Es organizado, distribuye bien el tiempo para cumplir con su trabajo</option>
+                        <option value="Es organizado, distribuye y utiliza bien su tiempo para cumplir con su trabajo">Es organizado, distribuye y utiliza bien su tiempo para cumplir con su trabajo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="v_f_habilidad">Valores para Factor Habilidad</label>
+                    <select class="form-control" v-model="v_f_habilidad" name="v_f_habilidad" id="v_f_habilidad" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="3%">3%</option>
+                        <option value="8%">8%</option>
+                        <option value="9%">9%</option>
+                        <option value="10%">10%</option>
+                    </select>
+                </div>
+            </div>
             <h2 class="text-left">Factor Iniciativa: ponderación 10%</h2>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="f_iniciativa">Factor Iniciativa</label>
-                        <select class="form-control" v-model="f_iniciativa" name="f_iniciativa" id="f_iniciativa">
-                            <option disabled value="">-Select-</option>
-                            <option value="Deficiente">Deficiente</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Excelente">Excelente</option>
-                        </select>
-                    </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="f_iniciativa">Factor Iniciativa</label>
+                    <select class="form-control" v-model="f_iniciativa" name="f_iniciativa" id="f_iniciativa">
+                        <option disabled value="">-Select-</option>
+                        <option value="Deficiente">Deficiente</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Excelente">Excelente</option>
+                    </select>
                 </div>
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_iniciativa">Descripción factor iniciativa</label>
-                        <select class="form-control" v-model="d_f_iniciativa" name="d_f_iniciativa" id="d_f_iniciativa" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="Siempre se le debe decir lo que le corresponde hacer">Siempre se le debe decir lo que le corresponde hacer</option>
-                            <option value="Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa">Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa</option>
-                            <option value="Muestra iniciativa para realizar el trabajo, se limita a cumplir con sus responsabilidades">Muestra iniciativa para realizar el trabajo, se limita a cumplir con sus responsabilidades</option>
-                            <option value="Muestra habilidad para tomar iniciativa en superarse, adquiere conocimientos y propone ideas">Muestra habilidad para tomar iniciativa en superarse, adquiere conocimientos y propone ideas</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="v_f_iniciativa">Valores de Factor Resposanbilidad</label>
-                        <select class="form-control" v-model="v_f_iniciativa" name="v_f_iniciativa" id="v_f_iniciativa" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="3%">3%</option>
-                            <option value="8%">8%</option>
-                            <option value="9%">9%</option>
-                            <option value="10%">10%</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
+            <div class="">
+                <div class="form-group">
+                    <label for="d_f_iniciativa">Descripción factor iniciativa</label>
+                    <select class="form-control" v-model="d_f_iniciativa" name="d_f_iniciativa" id="d_f_iniciativa" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="Siempre se le debe decir lo que le corresponde hacer">Siempre se le debe decir lo que le corresponde hacer</option>
+                        <option value="Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa">Se le debe recordar lo que debe hacer. Muestra poco interés o iniciativa</option>
+                        <option value="Muestra iniciativa para realizar el trabajo, se limita a cumplir con sus responsabilidades">Muestra iniciativa para realizar el trabajo, se limita a cumplir con sus responsabilidades</option>
+                        <option value="Muestra habilidad para tomar iniciativa en superarse, adquiere conocimientos y propone ideas">Muestra habilidad para tomar iniciativa en superarse, adquiere conocimientos y propone ideas</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="">
+                <div class="form-group">
+                    <label for="v_f_iniciativa">Valores de Factor Resposanbilidad</label>
+                    <select class="form-control" v-model="v_f_iniciativa" name="v_f_iniciativa" id="v_f_iniciativa" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="3%">3%</option>
+                        <option value="8%">8%</option>
+                        <option value="9%">9%</option>
+                        <option value="10%">10%</option>
+                    </select>
+                </div>
+            </div>
             <h2 class="text-left">Factor Disciplina: Ponderación 20%</h2>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="f_disciplina">Factor Disciplina</label>
-                        <select class="form-control" v-model="f_disciplina" name="f_disciplina" id="f_disciplina">
-                            <option disabled value="">-Select-</option>
-                            <option value="Deficiente">Deficiente</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Excelente">Excelente</option>
-                        </select>
-                    </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="f_disciplina">Factor Disciplina</label>
+                    <select class="form-control" v-model="f_disciplina" name="f_disciplina" id="f_disciplina">
+                        <option disabled value="">-Select-</option>
+                        <option value="Deficiente">Deficiente</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Excelente">Excelente</option>
+                    </select>
                 </div>
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_disciplina">Descripción para factor disciplina</label>
-                        <select class="form-control" v-model="d_f_disciplina" name="d_f_disciplina" id="d_f_disciplina" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica">Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica</option>
-                            <option value="Eventualmente incumple con los reglamentos, norma y con la autoridad">Eventualmente incumple con los reglamentos, norma y con la autoridad</option>
-                            <option value="Persona que cumple las ordenes y disposiciones, reglamentos y autoridad">Persona que cumple las ordenes y disposiciones, reglamentos y autoridad</option>
-                            <option value="Persona autodisciplinada muy dispuesta y adaptable, su presentación es siempre impecable">Persona autodisciplinada muy dispuesta y adaptable, su presentación es siempre impecable</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="v_f_disciplina">Valores para factor disciplina</label>
-                        <select class="form-control" v-model="v_f_disciplina" name="v_f_disciplina" id="v_f_disciplina" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="5%">5%</option>
-                            <option value="15%">15%</option>
-                            <option value="16%">16%</option>
-                            <option value="20%">20%</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
+            <div class="">
+                <div class="form-group">
+                    <label for="d_f_disciplina">Descripción para factor disciplina</label>
+                    <select class="form-control" v-model="d_f_disciplina" name="d_f_disciplina" id="d_f_disciplina" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica">Frecuentemente incumple con los reglamentos, normar y con la autoridad jerárquica</option>
+                        <option value="Eventualmente incumple con los reglamentos, norma y con la autoridad">Eventualmente incumple con los reglamentos, norma y con la autoridad</option>
+                        <option value="Persona que cumple las ordenes y disposiciones, reglamentos y autoridad">Persona que cumple las ordenes y disposiciones, reglamentos y autoridad</option>
+                        <option value="Persona autodisciplinada muy dispuesta y adaptable, su presentación es siempre impecable">Persona autodisciplinada muy dispuesta y adaptable, su presentación es siempre impecable</option>
+                    </select>
+                </div>
+            </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="v_f_disciplina">Valores para factor disciplina</label>
+                    <select class="form-control" v-model="v_f_disciplina" name="v_f_disciplina" id="v_f_disciplina" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="5%">5%</option>
+                        <option value="15%">15%</option>
+                        <option value="16%">16%</option>
+                        <option value="20%">20%</option>
+                    </select>
+                </div>
+            </div>
             <h2 class="text-left">Factor producción de trabajo: Ponderación 25%</h2>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="f_produccion">Factor Producción</label>
-                        <select class="form-control" v-model="f_produccion" name="f_produccion" id="f_produccion">
-                            <option disabled value="">-Select-</option>
-                            <option value="Deficiente">Deficiente</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Excelente">Excelente</option>
-                        </select>
-                    </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="f_produccion">Factor Producción</label>
+                    <select class="form-control" v-model="f_produccion" name="f_produccion" id="f_produccion">
+                        <option disabled value="">-Select-</option>
+                        <option value="Deficiente">Deficiente</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Excelente">Excelente</option>
+                    </select>
                 </div>
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_produccion">Descripción de factor producción</label>
-                        <select class="form-control" v-model="d_f_produccion" name="d_f_produccion" id="d_f_produccion" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar">La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar</option>
-                            <option value="La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección">La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección</option>
-                            <option value="La cantidad y calidad del trabajo es aceptable, su trabajo requiere supervisión siempre está al día">La cantidad y calidad del trabajo es aceptable, su trabajo requiere supervisión siempre está al día</option>
-                            <option value="La cantidad y calidad del trabajo es satisfactoria, no comete errores en la ejecución de su cargo">La cantidad y calidad del trabajo es satisfactoria, no comete errores en la ejecución de su cargo</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="v_f_produccion">Valores para factor producción de trabajo</label>
-                        <select class="form-control" v-model="v_f_produccion" name="v_f_produccion" id="v_f_produccion" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="10%">10%</option>
-                            <option value="21%">21%</option>
-                            <option value="23%">23%</option>
-                            <option value="25%">25%</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
+            <div class="">
+                <div class="form-group">
+                    <label for="d_f_produccion">Descripción de factor producción</label>
+                    <select class="form-control" v-model="d_f_produccion" name="d_f_produccion" id="d_f_produccion" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar">La cantidad y calidad de trabajo es notablemente menos a lo esperado, no cumple las indicaciones para mejorar</option>
+                        <option value="La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección">La cantidad y calidad de trabajo es menos a lo esperado, requiere supervisión y corrección</option>
+                        <option value="La cantidad y calidad del trabajo es aceptable, su trabajo requiere supervisión siempre está al día">La cantidad y calidad del trabajo es aceptable, su trabajo requiere supervisión siempre está al día</option>
+                        <option value="La cantidad y calidad del trabajo es satisfactoria, no comete errores en la ejecución de su cargo">La cantidad y calidad del trabajo es satisfactoria, no comete errores en la ejecución de su cargo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="v_f_produccion">Valores para factor producción de trabajo</label>
+                    <select class="form-control" v-model="v_f_produccion" name="v_f_produccion" id="v_f_produccion" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="10%">10%</option>
+                        <option value="21%">21%</option>
+                        <option value="23%">23%</option>
+                        <option value="25%">25%</option>
+                    </select>
+                </div>
+            </div>
             <h2 class="text-left">Factor relaciones Interpersonales: ponderación 15%</h2>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="f_relacion">Relaciones Interpersonales</label>
-                        <select class="form-control" v-model="f_relacion" name="f_relacion" id="f_relacion">
-                            <option disabled value="">-Select-</option>
-                            <option value="Deficiente">Deficiente</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Bueno">Bueno</option>
-                            <option value="Excelente">Excelente</option>
-                        </select>
-                    </div>
+            
+            <div class="">
+                <div class="form-group">
+                    <label for="f_relacion">Relaciones Interpersonales</label>
+                    <select class="form-control" v-model="f_relacion" name="f_relacion" id="f_relacion">
+                        <option disabled value="">-Select-</option>
+                        <option value="Deficiente">Deficiente</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Excelente">Excelente</option>
+                    </select>
                 </div>
-                <div class="col-md-6"></div>
-                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="d_f_relacion">Descripción relaciones interpersonales</label>
-                        <select class="form-control" v-model="d_f_relacion" name="d_f_relacion" id="d_f_relacion"disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="Sus relaciones interpersonales no son apropiadas generando conflictos laborales">Sus relaciones interpersonales no son apropiadas generando conflictos laborales</option>
-                            <option value="Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral">Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral</option>
-                            <option value="Sus relaciones interpersonales son apropiadas, no generan conflicto">Sus relaciones interpersonales son apropiadas, no generan conflicto</option>
-                            <option value="Siempre mantiene y promueve las buenas relaciones interpersonales, desarrolla su trabajo en armonía">Siempre mantiene y promueve las buenas relaciones interpersonales, desarrolla su trabajo en armonía</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="v_f_relacion">Valores Relaciones Interpersonales</label>
-                        <select class="form-control" v-model="v_f_relacion" name="v_f_relacion" id="v_f_relacion" disabled>
-                            <option disabled value="">-Select-</option>
-                            <option value="5%">5%</option>
-                            <option value="11%">11%</option>
-                            <option value="13%">13%</option>
-                            <option value="15%">15%</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
-            <hr>
-
+            <div class="">
+                <div class="form-group">
+                    <label for="d_f_relacion">Descripción relaciones interpersonales</label>
+                    <select class="form-control" v-model="d_f_relacion" name="d_f_relacion" id="d_f_relacion"disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="Sus relaciones interpersonales no son apropiadas generando conflictos laborales">Sus relaciones interpersonales no son apropiadas generando conflictos laborales</option>
+                        <option value="Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral">Sus relaciones interpersonales a veces generan conflicto o alteran el ambiente laboral</option>
+                        <option value="Sus relaciones interpersonales son apropiadas, no generan conflicto">Sus relaciones interpersonales son apropiadas, no generan conflicto</option>
+                        <option value="Siempre mantiene y promueve las buenas relaciones interpersonales, desarrolla su trabajo en armonía">Siempre mantiene y promueve las buenas relaciones interpersonales, desarrolla su trabajo en armonía</option>
+                    </select>
+                </div>
+            </div>
+            <div class="">
+                <div class="form-group">
+                    <label for="v_f_relacion">Valores Relaciones Interpersonales</label>
+                    <select class="form-control" v-model="v_f_relacion" name="v_f_relacion" id="v_f_relacion" disabled>
+                        <option disabled value="">-Select-</option>
+                        <option value="5%">5%</option>
+                        <option value="11%">11%</option>
+                        <option value="13%">13%</option>
+                        <option value="15%">15%</option>
+                    </select>
+                </div>
+            </div>
+            
             <div class="row">
-                <div class="col-md-6">
+                <div class="col">
                     <div class="form-group">
                         <h2> <label for="puesto">Ponderacion Total</label> </h2>
                         <input type="text" class="form-control" id="ponderacion_total" v-model="ponderacion_total" aria-describedby="puesto" placeholder="Ponderacion" disabled>
@@ -349,7 +322,13 @@
 
             <div class="d-flex justify-content-center">
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" @click="createSolicitudEvaluacionPeriodoPrueba"  :disabled="errors.codigo ||  errors.puesto || errors.evaluador || errors.cargo"  >
+                <button type="submit" class="btn btn-primary" @click="createSolicitudEvaluacionPeriodoPrueba"  :disabled="errors.codigo ||  errors.puesto || errors.evaluador || errors.cargo || loading"  >
+                    <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
                     Enviar
                     <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
@@ -385,13 +364,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="lib/luxon.min.js"></script>
+    <script src="lib/vue-datetime.min.js"></script>
+    <script src="lib/vuelidate.min.js"></script>
+    <script src="lib/vuelidators.min.js"></script>
     <script src="app.js"></script>
-    <script>
+    <!-- <script>
         $('.datepicker').datepicker({
         startDate: '-3d',
         autoclose: true
         });
-    </script>
+    </script> -->
     
 </body>
 </html>

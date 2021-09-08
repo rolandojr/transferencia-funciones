@@ -6,8 +6,11 @@ var app = new Vue({
       tipo:"",
       tema:null,
       fecha_convenio:null,
+      fecha_convenio_formateado:null,
       fecha_inicio: null,
+      fecha_inicio_formateado:null,
       fecha_fin: null,
+      fecha_fin_formateado:null,
       file: null,
       evaluacion_capacitado:null,
       evaluacion_eficacia:null,
@@ -21,7 +24,8 @@ var app = new Vue({
         evaluacion_capacitado:null,
         evaluacion_eficacia:null,
         descuento_aplicable:null,
-      }
+      },
+      loading:null,
     },
     watch:{
       codigo: function(val) {
@@ -69,11 +73,6 @@ var app = new Vue({
         // console.log(this.file);
         let anularArchivo = false;
         if (this.file) {
-          if (this.file.type.indexOf('application/pdf') < 0) {
-            this.message = "Debe ingresar un documento pdf";
-            $('#exampleModal').modal();
-            anularArchivo = true;
-          }
           let sizeFile = this.file.size / (1024*1024);
           if (sizeFile > 5.0 ) {
             this.message = "El tamaño no debe superar los 5 MB";
@@ -136,38 +135,23 @@ var app = new Vue({
         // console.log(data);
         return data;
       },
-       convertDate: function(dateString){
-        return dateString.replaceAll("/","-");
-        },
-      createSolicitudDescanso: async function () {
-        this.fecha_inicio = document.getElementById("fecha_inicio").value;
-        this.fecha_fin = document.getElementById("fecha_fin").value;
-        this.fecha_convenio = document.getElementById("fecha_convenio").value;
-        
-        // console.log(this.codigo);
-        // console.log(this.tipo);
-        // console.log(this.tema);
-        // console.log(this.convertDate(this.fecha_convenio));
-        // console.log(this.convertDate(this.fecha_inicio));
-        // console.log(this.convertDate(this.fecha_fin));
-        // console.log(this.evaluacion_capacitado)
-        // console.log(this.evaluacion_eficacia)
-        // console.log(this.descuento_aplicable)
-        // console.log(this.requisito_legal)
-        // console.log(this.tiempo_retencion)
-        // console.log(this.entidad_educativa)
+      convertDate: function(dateString){
+        let fecha_sin_formato =  dateString.split("T")[0];
+        let fecha_separada = fecha_sin_formato.split("-");
+        let fecha_con_formato = fecha_separada[2] + "-"+fecha_separada[1]+"-"+ fecha_separada[0];
+        console.log(fecha_con_formato);
+        return fecha_con_formato;
+       },
 
+
+      createSolicitudDescanso: async function () {
+        this.loading = true;
         if (this.codigo && this.tipo && this.file && this.tema && this.fecha_convenio
            && this.fecha_inicio && this.fecha_fin && this.evaluacion_capacitado && this.evaluacion_eficacia 
            && this.descuento_aplicable && this.requisito_legal && this.tiempo_retencion && this.entidad_educativa ) {
-          this.fecha_convenio = this.convertDate(this.fecha_convenio);
-          this.fecha_inicio = this.convertDate(this.fecha_inicio);
-          this.fecha_fin = this.convertDate(this.fecha_fin);
-          // console.log("***************************")
-          // console.log(this.fecha_convenio);
-          // console.log(this.fecha_inicio);
-          // console.log(this.fecha_fin);
-          // console.log("***************************")
+          this.fecha_convenio_formateado = this.convertDate(this.fecha_convenio);
+          this.fecha_inicio_formateado = this.convertDate(this.fecha_inicio);
+          this.fecha_fin_formateado = this.convertDate(this.fecha_fin);
           let data = await this.sendFile(this.file);
           console.log(data);
           if (!data) {
@@ -177,7 +161,7 @@ var app = new Vue({
           let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
           // console.log(urlEndpoint);
           this.endpoint = urlEndpoint;
-          let response = await  this.sendCapacitacion(this.codigo,this.tipo,this.tema,this.fecha_convenio,this.fecha_inicio,this.fecha_fin,this.evaluacion_capacitado,
+          let response = await  this.sendCapacitacion(this.codigo,this.tipo,this.tema,this.fecha_convenio_formateado,this.fecha_inicio_formateado,this.fecha_fin_formateado,this.evaluacion_capacitado,
             this.evaluacion_eficacia,this.descuento_aplicable,this.requisito_legal,this.tiempo_retencion,this.entidad_educativa,this.endpoint);
           let data_zoho =  JSON.parse(response.data)
           if (data_zoho.details.output == "0"){
@@ -194,8 +178,7 @@ var app = new Vue({
           this.message = "Debe ingresar todos los campos";
           $('#exampleModal').modal();
         }
-        
+        this.loading = false;
       },
-  
     }
   })

@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="lib/vue-datetime.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container my-5 " id="app">
@@ -46,29 +47,43 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Fecha del Convenio</label>
-                        <div class="input-icons">
+                        <!-- <div class="input-icons">
                             <i class="fas fa-calendar-times icon"></i>
                             <input class="datepicker input-field form-control" id="fecha_convenio"  data-date-format="dd/mm/yyyy">
-                        </div>
+                        </div> -->
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                <datetime v-model="fecha_convenio" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
+                            </div>
+                        
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="">Fecha de Inicio</label>
-                    <div class="input-icons">
+                    <!-- <div class="input-icons">
                         <i class="fas fa-calendar-times icon"></i>
                         <input class="datepicker input-field form-control" id="fecha_inicio"  data-date-format="dd/mm/yyyy">
+                    </div> -->
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime v-model="fecha_inicio" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="">Fecha de Fin</label>
-                    <div class="input-icons">
+                    <!-- <div class="input-icons">
                         <i class="fas fa-calendar-times icon"></i>
                         <input type="text" class="datepicker input-field form-control" id="fecha_fin"  data-date-format="dd/mm/yyyy">
+                    </div> -->
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime v-model="fecha_fin" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
             </div>
+            <br>
             <div class="form-group">
                 <label for="convenio">Convenio</label>
                 <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
@@ -77,14 +92,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="evaluacion_capacitado">Evaluacion al capacitado</label>
-                        <input type="text" class="form-control" id="evaluacion_capacitado" v-model="evaluacion_capacitado" aria-describedby="evaluacion_capacitado" placeholder="Evaluación">
+                        <input type="number" class="form-control" id="evaluacion_capacitado" v-model="evaluacion_capacitado" aria-describedby="evaluacion_capacitado" placeholder="Evaluación">
                         <small class="color-red" v-if="errors.evaluacion_capacitado" >Introduzca un número entero válido para Evaluación al capacitado (p.e 12) </small>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="evaluacion_eficacia">Evaluacion de eficacia</label>
-                        <input type="text" class="form-control" id="evaluacion_eficacia" v-model="evaluacion_eficacia" aria-describedby="evaluacion_eficacia" placeholder="Evaluación">
+                        <input type="number" class="form-control" id="evaluacion_eficacia" v-model="evaluacion_eficacia" aria-describedby="evaluacion_eficacia" placeholder="Evaluación">
                         <small class="color-red" v-if="errors.evaluacion_eficacia" >Introduzca un número entero válido para Evaluación de eficacia (p.e 15)</small>
                     </div>
                 </div>
@@ -94,7 +109,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="descuento_aplicable">Descuento Aplicable</label>
-                        <input type="text" class="form-control" id="descuento_aplicable" v-model="descuento_aplicable" aria-describedby="descuento_aplicable" placeholder="Descuento">
+                        <input type="number" class="form-control" id="descuento_aplicable" v-model="descuento_aplicable" aria-describedby="descuento_aplicable" placeholder="Descuento">
                         <small class="color-red" v-if="errors.descuento_aplicable" >Introduzca un valor decimal válido para Descuento aplicable (p.e 12.15)</small>
                         
                     </div>
@@ -144,7 +159,13 @@
 
             <div class="d-flex justify-content-center">
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" @click="createSolicitudDescanso"  :disabled="errors.codigo ||  errors.evaluacion_capacitado || errors.evaluacion_eficacia || errors.descuento_aplicable"  >
+                <button type="submit" class="btn btn-primary" @click="createSolicitudDescanso"  :disabled="errors.codigo ||  errors.evaluacion_capacitado || errors.evaluacion_eficacia || errors.descuento_aplicable || loading"  >
+                    <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
                     Guardar
                     <i class="fas fa-save"></i>
                 </button>
@@ -182,13 +203,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="lib/luxon.min.js"></script>
+    <script src="lib/vue-datetime.min.js"></script>
+    <script src="lib/vuelidate.min.js"></script>
+    <script src="lib/vuelidators.min.js"></script>
     <script src="app.js"></script>
-    <script>
-        $('.datepicker').datepicker({
-        startDate: '-3d',
-        autoclose: true
-        });
-    </script>
     
 </body>
 </html>

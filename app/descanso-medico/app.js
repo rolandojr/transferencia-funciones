@@ -13,6 +13,14 @@ var app = new Vue({
       errors:{
         codigo:null
       },
+      search: {
+        ui: {
+            loading: false,
+            error: null,
+            success: false,
+            showResults: false
+        },
+      }
     },
     watch: {
       codigo: function(val) {
@@ -32,11 +40,6 @@ var app = new Vue({
         // console.log(this.file);
         let anularArchivo = false;
         if (this.file) {
-          if (this.file.type.indexOf('application/pdf') < 0) {
-            this.message = "Debe ingresar un documento pdf";
-            $('#exampleModal').modal();
-            anularArchivo = true;
-          }
           let sizeFile = this.file.size / (1024*1024);
           if (sizeFile > 5.0 ) {
             this.message = "El tamaño no debe superar los 5 MB";
@@ -95,20 +98,28 @@ var app = new Vue({
         return dateString.replaceAll("/","-");
         
         },
+       convertDateFormat: function(dateString){
+        let fecha_sin_formato =  dateString.split("T")[0];
+        let fecha_separada = fecha_sin_formato.split("-");
+        let fecha_con_formato = fecha_separada[2] + "-"+fecha_separada[1]+"-"+ fecha_separada[0];
+        // console.log(fecha_con_formato);
+        return fecha_con_formato;
+       },
       createSolicitudDescanso: async function () {
-        this.fecha_inicio = document.getElementById("fecha_inicio").value;
-        this.fecha_fin = document.getElementById("fecha_fin").value;
-        // console.log(this.codigo);
-        // console.log(this.tipo);
-        // console.log(this.fecha_inicio);
-        // console.log(this.fecha_fin);
+        this.search.ui.loading = true
+        // this.fecha_inicio = document.getElementById("fecha_inicio").value;
+        // this.fecha_fin = document.getElementById("fecha_fin").value;
+        // console.log(this.fecha_inicio)
+        if (this.fecha_inicio != null ) { 
+          this.fecha_inicio_formato = this.convertDateFormat(this.fecha_inicio)
+        }
+        if (this.fecha_fin != null) {
+          this.fecha_fin_formato = this.convertDateFormat(this.fecha_fin);
+        }
+        
         if (this.codigo && this.tipo && this.file && this.fecha_inicio && this.fecha_fin ) {
-          // console.log(this.codigo);
-          // console.log(this.tipo);
-          // console.log(this.fecha_inicio);
-          // console.log(this.fecha_fin);
-          this.fecha_inicio_formato = this.convertDate(this.fecha_inicio);
-          this.fecha_fin_formato = this.convertDate(this.fecha_fin);
+          // this.fecha_inicio_formato = this.convertDate(this.fecha_inicio);
+          // this.fecha_fin_formato = this.convertDate(this.fecha_fin);
           let data = await this.sendFile(this.file);
           // console.log(data);
           if (!data) {
@@ -125,7 +136,7 @@ var app = new Vue({
             $('#exampleModal').modal();
             setTimeout(() => {
               location.reload();  
-            }, 3000);        
+            }, 5000);        
           }else{
              this.message =  data_zoho.details.output;
              $('#exampleModal').modal();
@@ -135,7 +146,7 @@ var app = new Vue({
           this.message = "Debe ingresar todos los campos";
           $('#exampleModal').modal();
         }
-        
+        this.search.ui.loading = false
       },
   
     }
