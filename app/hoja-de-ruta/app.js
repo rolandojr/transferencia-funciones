@@ -95,7 +95,7 @@ var app = new Vue({
           this.message = "Se han registrado éxitosamente";  
           $('#exampleModal').modal();
           setTimeout(() => {
-            // location.reload();  
+            location.reload();  
           }, 3000);
           
         }else{
