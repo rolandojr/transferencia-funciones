@@ -57,111 +57,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="tema">Direccion</label>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="direccion" v-model="direccion" aria-describedby="direccion" placeholder="Ingrese la direccion">
-                    </div>
-                </div>
+                
             </div>
+          
             
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Fecha del Nacimiento</label>
-                    <div class="form-group">
-                        <div class="input-icons">
-                            <!-- <i class="fas fa-calendar-times icon"></i> -->
-                            <!-- <input class="datepicker input-field form-control" id="fecha_nacimiento"  data-date-format="dd/mm/yyyy"> -->
-                            <input type="date" class="form-control" name="" v-model="fecha_nacimiento" id="">
-                            <!-- <input class="form-control"  type="date" id="fecha_nacimiento"  data-date-format="dd/mm/yyyy"> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="tema">Lugar de Nacimiento</label>
-                    <div class="form-group">
-                        <input type="text" class="form-control"  v-model="lugar_nacimiento" placeholder="Ingrese lugar de Nacimiento">
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="tema">Edad</label>
-                    <div class="form-group">
-                        <input type="number" class="form-control"  v-model="edad" placeholder="Ingrese la edad">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="">Brevete</label>
-                    <div class="form-group">
-                        <select class="form-control" v-model="brevete" name="brevete" >
-                            <option disabled value="">Seleccione un elemento</option>
-                            <option value="Si">Si</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="tema">Categoria de Brevete</label>
-                    <div class="form-group">
-                        <input type="text" class="form-control"  v-model="categoria_brevete" placeholder="Ingrese categoria brevete">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="tema">Telefono</label>
-                    <div class="form-group">
-                        <input type="text" class="form-control"  v-model="telefono" placeholder="Ingrese telefono">
-                    </div>
-                </div>
-            </div>
-
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">¿Tiene hijos? </label>
-                    <div class="form-group">
-                        <select class="form-control" v-model="tiene_hijos" name="tiene_hijos" >
-                            <option disabled value="">Seleccione un elemento</option>
-                            <option value="Si">Si</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="tema">Numero de Hijos</label>
-                    <div class="form-group">
-                        <input type="number" class="form-control"  v-model="numero_hijos" placeholder="">
-                    </div>
-                </div>
-            </div>
-            
-
-            <div class="row">
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">¿Con quien vive actualmente?</label>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" v-model="vive_actualmente" value="Familia" checked>
-                          <label class="form-check-label" for="">
-                            Familia
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" v-model="vive_actualmente" value="Independiente">
-                          <label class="form-check-label" for="">
-                            Independiente
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!--  -->
             <br>
             <!--  -->
@@ -214,6 +113,34 @@
             </div>
             <br>
             <hr>
+            <h3>Ms Office Realizados</h3>
+            <div class="row">
+                <hr>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <th class="text-center" >Acciones</th>
+                            <th class="text-center" >Herramienta o Programa</th>
+                            <th class="text-center" >Nivel</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(ms_office_realizado, k) in ms_office_realizados" :key="k">
+                               <td class="text-center">   
+                                   <button v-on:click="removeRowMsOfficeRealizados(k,ms_office_realizado)" class="btn btn-danger btn-sm">
+                                    <i class="far fa-trash-alt"></i>
+                                   </button> 
+                                </td>
+                               <td> <input class="form-control" style="width: 200px;"  type="text" v-model="ms_office_realizado.herramienta"> </td>     
+                               <td> <input class="form-control" style="width: 200px;" type="text" v-model="ms_office_realizado.nivel"> </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type='button' class="btn btn-sm btn-info ml-4" @click="addRowMsOfficeRealizados">
+                        <i class="fas fa-plus-circle"></i>    
+                    </button>
+                <hr>
+            </div>
+            <br>
+            <br>
             <h3>Otros estudios realizados</h3>
             <div class="row">
                 <hr>
@@ -222,8 +149,7 @@
                             <th class="text-center" >Acciones</th>
                             <th class="text-center" >Idioma</th>
                             <th class="text-center" >Nivel</th>
-                            <th class="text-center" >Ms Office</th>
-                            <th class="text-center" >Nivel</th>
+                            
                         </thead>
                         <tbody>
                             <tr v-for="(otro_estudio_realizado, k) in otros_estudios_realizados" :key="k">
@@ -232,10 +158,8 @@
                                     <i class="far fa-trash-alt"></i>
                                    </button> 
                                 </td>
-                               <td> <input class="form-control" style="width: 120px;"  type="text" v-model="otro_estudio_realizado.idioma"> </td>     
+                               <td> <input class="form-control" style="width: 200px;"  type="text" v-model="otro_estudio_realizado.idioma"> </td>     
                                <td> <input class="form-control" style="width: 200px;" type="text" v-model="otro_estudio_realizado.nivel"> </td> 
-                               <td> <input class="form-control" style="width: 200px;" type="text" v-model="otro_estudio_realizado.ms_office"> </td> 
-                               <td> <input class="form-control" style="width: 200px;" type="text" v-model="otro_estudio_realizado.nivel_ms_office"> </td> 
                             </tr>
                         </tbody>
                     </table>
@@ -243,7 +167,6 @@
                         <i class="fas fa-plus-circle"></i>
                         
                     </button>
-                
                 
                 <hr>
             </div>

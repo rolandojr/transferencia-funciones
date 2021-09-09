@@ -23,11 +23,14 @@ var app = new Vue({
       gradoObtenido: '',
       situacion: ''
     }],
+    ms_office_realizados:[{
+      herramienta: '',
+      nivel: '',
+    }],
     otros_estudios_realizados: [{
       idioma: '',
       nivel: '',
-      ms_office: '',
-      nivel_ms_office: ''
+      
     }],
     cargo_actual:null,
     area:'',
@@ -74,12 +77,24 @@ var app = new Vue({
         this.estudios_realizados.splice(idx, 1);
       }
     },
+    addRowMsOfficeRealizados: function(){
+      this.ms_office_realizados.push({
+        herramienta:'',
+        nivel:'',
+      })
+    },
+    removeRowMsOfficeRealizados: function(index,ms_office_realizado){
+      var idx = this.ms_office_realizados.indexOf(ms_office_realizado);
+      // console.log(idx, index);
+      if (idx > -1) {
+        this.ms_office_realizados.splice(idx, 1);
+      }
+    },
     addRowOtrosEstudios: function () {
       this.otros_estudios_realizados.push({
         idioma: '',
         nivel: '',
-        ms_office: '',
-        nivel_ms_office: ''
+        
       })
     },
     removeRowOtrosEstudios: function (index, otro_estudio_realizado) {
@@ -102,7 +117,10 @@ var app = new Vue({
       myHeaders.append("Content-Type", "application/json");
 
       this.estudios_realizados = this.estudios_realizados.map( estudio_realizado  => {
-        estudio_realizado.anioIngreso = this.formatDate(estudio_realizado.anioIngresoWithoutFormat);
+        console.log("aaa" , estudio_realizado.anioIngresoWithoutFormat);
+        if (estudio_realizado.anioIngresoWithoutFormat) {
+          estudio_realizado.anioIngreso = this.formatDate(estudio_realizado.anioIngresoWithoutFormat);  
+        }
         // console.log(estudio_realizado);
         return estudio_realizado;
       });
@@ -111,17 +129,8 @@ var app = new Vue({
         "codigo": this.codigo,
         "sexo": this.sexo,
         "estado": this.estado,
-        "direccion": this.direccion,
-        "fecha_nacimiento": this.formatDate(this.fecha_nacimiento),
-        "lugar_nacimiento": this.lugar_nacimiento,
-        "edad": this.edad,
-        "brevete": this.brevete,
-        "categoria_brevete": this.categoria_brevete,
-        "telefono":this.telefono,
-        "tiene_hijos": this.tiene_hijos,
-        "numero_hijos": this.numero_hijos,
-        "con_quien_vive_actualmente": this.vive_actualmente,
         "estudiosRealizados": this.estudios_realizados,
+        "ms_office_realizados": this.ms_office_realizados,
         "otrosEstudiosRealizados": this.otros_estudios_realizados,
         "cargoActual": this.cargo_actual,
         "area": this.area,
@@ -158,7 +167,7 @@ var app = new Vue({
             $('#exampleModal').modal();
             setTimeout(() => {
               location.reload();  
-            }, 3000);        
+            }, 5000);        
           }else{
              this.message =  data_zoho.details.output;
              $('#exampleModal').modal();
