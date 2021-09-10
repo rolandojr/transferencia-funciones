@@ -24,7 +24,6 @@
                         <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="dni">DNI</label>
@@ -32,7 +31,6 @@
                         <small class="color-red" v-if="errors.dni" >Introduzca DNI</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="familiar">Familiar</label>
@@ -45,9 +43,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="dato_familiar">Datos Familiar</label>
@@ -55,42 +50,12 @@
                         <small class="color-red" v-if="errors.dato_familiar" >Introduzca Dato Familiar</small>
                     </div>
                 </div>
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Validación</label>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="gridRadios" v-model="validacion" id="gridRadios1" value="Si" checked>
-                              <label class="form-check-label" for="gridRadios1">
-                                Si
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="gridRadios" v-model="validacion" id="gridRadios2" value="No">
-                              <label class="form-check-label" for="gridRadios2">
-                                No
-                              </label>
-                            </div>
-                    </div>
-                </div>
-                <div class="col-md-6"></div>
+                
+            </div>
+            <div class="row">
+                
                 <div class="col-md-12">
-                   <!--
-                    <div class="form-group">
-                        <label for="">Archivo</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-cloud-upload-alt"></i></span>
-                            </div>
-                            <div class="custom-file">
-                             <input type="file" class="custom-file-input" @change="selectFile($event)" id="archivo"> 
-                              <label class="custom-file-label" for="archivo">Elija el archivo</label>
-                              <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
-                            </div>
-                            <small class="color-red" v-if="errors.archivo" >Seleccionar un documento</small>
-                        </div>
-                    </div>
-                 -->
+                 
                  <div class="form-group">
                     <label for="convenio">Archivo</label>
                     <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
@@ -104,7 +69,13 @@
 
             <div class="d-flex justify-content-center">
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" @click="createSolicitudBonoFallecimiento"  :disabled="errors.codigo ||  errors.evaluacion_capacitado || errors.evaluacion_eficacia || errors.descuento_aplicable"  >
+                <button type="submit" class="btn btn-primary" @click="createSolicitudBonoFallecimiento"  :disabled="errors.codigo || loading "  >
+                    <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
                     Enviar
                     <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>

@@ -14,7 +14,8 @@ var app = new Vue({
         dni:null,
         dato_familiar:null,
         file:null,
-      }
+      },
+      loading:null,
     },
     watch:{
       codigo: function(val) {
@@ -49,14 +50,8 @@ var app = new Vue({
     methods: {
       selectFile: function (event) {
         this.file = event.target.files[0];
-        // console.log(this.file);
         let anularArchivo = false;
         if (this.file) {
-          if (this.file.type.indexOf('application/pdf') < 0) {
-            this.message = "Debe ingresar un documento pdf";
-            $('#exampleModal').modal();
-            anularArchivo = true;
-          }
           let sizeFile = this.file.size / (1024*1024);
           if (sizeFile > 5.0 ) {
             this.message = "El tamaño no debe superar los 5 MB";
@@ -67,8 +62,6 @@ var app = new Vue({
             this.file = null;
           }
         }
-        
-        // console.log(this.file);
       },
       sendFile: async function (archivo) {
         let formData = new FormData();
@@ -85,16 +78,13 @@ var app = new Vue({
   
       },
       sendBonoFallecimiento:  async function(codigo,dni,familiar,dato_familiar,validacion,url) {
-  
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-  
         var raw = JSON.stringify({
           "codigo": codigo,
           "dni": dni,
           "familiar": familiar,
           "dato_familiar": dato_familiar,
-          "validacion": validacion,
           "url": url,
         });
         console.log(raw);
@@ -114,41 +104,38 @@ var app = new Vue({
         return dateString.replaceAll("/","-");
         },
       createSolicitudBonoFallecimiento: async function () {
-        //this.fecha_inicio = document.getElementById("fecha_inicio").value;
-        //this.fecha_fin = document.getElementById("fecha_fin").value;
-        //this.fecha_convenio = document.getElementById("fecha_convenio").value;       
-
-        if (this.codigo && this.dni && this.familiar && this.dato_familiar && this.validacion  && this.file) {
-          //this.fecha_convenio = this.convertDate(this.fecha_convenio);
-          ///this.fecha_inicio = this.convertDate(this.fecha_inicio);
-          //this.fecha_fin = this.convertDate(this.fecha_fin);
-
-          let data = await this.sendFile(this.file);
-          console.log(data);
-          if (!data) {
-            return;
-          }
-          let { id } = data;  
-          let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-          // console.log(urlEndpoint);
-          this.endpoint = urlEndpoint;
-          let response = await  this.sendBonoFallecimiento(this.codigo,this.dni,this.familiar,this.dato_familiar,this.validacion,this.endpoint);
-          let data_zoho =  JSON.parse(response.data)
-          console.log (response);
-          if (data_zoho.details.output == "0"){
-            this.message = "Se han registrado éxitosamente";  
-            $('#exampleModal').modal();
-            setTimeout(() => {
-              location.reload();  
-            }, 3000);        
-          }else{
-             this.message =  data_zoho.details.output;
-             $('#exampleModal').modal();
-          }
-        }else {
-          this.message = "Debe ingresar todos los campos";
-          $('#exampleModal').modal();
+        this.loading = true;
+        try{
+            let data = await this.sendFile(this.file);
+            console.log(data);
+            if (!data) {
+              return;
+            }
+            let { id } = data;  
+            let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
+            // console.log(urlEndpoint);
+            this.endpoint = urlEndpoint;
+            let response = await  this.sendBonoFallecimiento(this.codigo,this.dni,this.familiar,this.dato_familiar,this.validacion,this.endpoint);
+            let data_zoho =  JSON.parse(response.data)
+            console.log (response);
+            if (data_zoho.details.output == "0"){
+              this.message = "Se han registrado éxitosamente";  
+              $('#exampleModal').modal();
+              setTimeout(() => {
+                location.reload();  
+              }, 3000);        
+            }else{
+               this.message =  data_zoho.details.output;
+               $('#exampleModal').modal();
+            }
+          
+        }catch(e){
+          console.log(e);
+        } finally {
+          this.loading = false;
         }
+
+        
         
       },
   

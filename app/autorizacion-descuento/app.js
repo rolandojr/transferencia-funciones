@@ -33,7 +33,6 @@ var app = new Vue({
               "codigo": this.codigo,
               "motivo_descuento": this.motivo_descuento,
               "check": this.check_autorizacion,
-              
             });
       
             var requestOptions = {
