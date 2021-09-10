@@ -23,98 +23,45 @@
             <h1 class="text-center">Autorizacion de descuento</h1>
             <hr>
             <div class="autorizacion-descuento-detalles">
-                <h3>Authorizacion de descuentos detalles</h3>
-                <hr>
+                
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <label for="">Codigo de Empleado</label>
                         <div class="form-group">
                             <input type="text" class="form-control" v-model="codigo" placeholder="Ingrese el codigo">
                             <!-- <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="">DNI</label>
-                        <div class="form-group">
-                            <input type="text" class="form-control" v-model="dni" placeholder="Ingrese el DNI">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="">Domicilio</label>
-                        <div class="form-group">
-                            <input type="text" class="form-control" v-model="domicilio"
-                                placeholder="Ingrese el Domicilio">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <label for="">Motivo de descuento</label>
                         <div class="form-group">
                             <input type="text" class="form-control" v-model="motivo_descuento"
                                 placeholder="Ingrese su Motivo de descuento">
                         </div>
                     </div>
+                    <br>
+                    <br>
+                    <br>
+                    
+                    <div class="form-check ml-2">
+                        <input class="form-check-input" v-model="check_autorizacion" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            A través del presente documento, autorizo a mi empleador, el Touring y Automóvil Club del Perú, para que efectúe el siguiente descuento de mi remuneración o, en caso de cese, de mi liquidación de Beneficios Sociales correspondiente.
+                        </label>
+                      </div>
+                   
                 </div>
             </div>
 
-            <div class="para-ser-completado-touring">
-                <h4 class="">Para ser completado por el Touring</h4>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="">Indica si genera interes</label>
-                        <div class="form-group">
-                            <input type="text" class="form-control" v-model="genera_interes" placeholder="Indique si gana interes ">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="">Porcentaje de Interes <strong> (%) </strong> </label>
-                        <div class="form-group">
-                            <input type="text" class="form-control" v-model="porcentaje_interes" placeholder="Ingrese el porcentaje de interes">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="monto-descontar">
-                <h4 class="">Costo a descontar</h4>
-                <hr>
-                <div class="row">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <th class="text-center" >Acciones</th>
-                                <th class="text-center" >Descripcion</th>
-                                <th class="text-center" >Precio Unitario</th>
-                                <th class="text-center" >Importe Total</th>
-                                <th class="text-center" >Importe total contabilizado</th>
-                                <th class="text-center" >Numero de cuotas</th>
-                                <th class="text-center" >Monto en cuotas</th>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(monto_descontar, k) in montos_descontar" :key="k">
-                                   <td class="text-center">   
-                                       <button v-on:click="removeRow(k,monto_descontar)" class="btn btn-danger btn-sm">
-                                        <i class="far fa-trash-alt"></i>
-                                       </button> 
-                                   </td>
-                                   <td> <input class="form-control" style="width: 120px;" type="text"  v-model="monto_descontar.descripcion"> </td>     
-                                   <td> <input class="form-control" style="width: 120px;" type="number" step=".01" v-model="monto_descontar.precio_unitario" @change="setTwoDecimals(monto_descontar,'precio_unitario')" > </td>     
-                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.importe_total" @change="setTwoDecimals(monto_descontar,'importe_total')" > </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.importe_total_contabilizado" @change="setTwoDecimals(monto_descontar,'importe_total_contabilizado')" > </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="number"  v-model="monto_descontar.numero_cuotas" @change="setNumber(monto_descontar)" > </td> 
-                                   <td> <input class="form-control" style="width: 200px;" type="number" step=".01" v-model="monto_descontar.monto_por_cuotas" @change="setTwoDecimals(monto_descontar,'monto_por_cuotas')" > </td> 
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button type='button' class="btn btn-sm btn-info ml-4" @click="addRow">
-                            <i class="fas fa-plus-circle"></i>
-                        </button>
-                </div>
-            </div>
-            
+           
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" @click="sendAutorizacionDescuento">
+                <button type="submit" class="btn btn-primary" @click="sendAutorizacionDescuento" :disabled="!check_autorizacion || loading">
+                    <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
                     Guardar
                     <i class="fas fa-save"></i>
                 </button>

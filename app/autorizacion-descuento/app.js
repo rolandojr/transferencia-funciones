@@ -3,20 +3,9 @@ var app = new Vue({
     data: {
         message:null,
         codigo:null,
-        dni:null,
-        domicilio:null,
         motivo_descuento:null,
-        genera_interes:null,
-        porcentaje_interes:null,
-        montos_descontar:[{
-            descripcion : '',
-            precio_unitario : '',
-            importe_total : '',
-            importe_total_contabilizado : '',
-            numero_cuotas : '',
-            monto_por_cuotas : '',
-        }
-        ]
+        check_autorizacion:null,
+        loading:null,
     },
     methods:{
         addRow: function () {
@@ -42,12 +31,8 @@ var app = new Vue({
       
             var raw = JSON.stringify({
               "codigo": this.codigo,
-              "dni": this.dni,
-              "domicilio": this.domicilio,
               "motivo_descuento": this.motivo_descuento,
-              "genera_interes": this.genera_interes,
-              "porcentaje_interes": this.porcentaje_interes,
-              "montos_descontar": this.montos_descontar
+              "check": this.check_autorizacion,
               
             });
       
@@ -77,19 +62,26 @@ var app = new Vue({
             }
           },
         sendAutorizacionDescuento: async function () {
-            
-            let response =  await this.sendData();
-            let data_zoho =  JSON.parse(response.data)
-                if (data_zoho.details.output == "0"){
-                  this.message = "Se han registrado éxitosamente";  
-                  $('#exampleModal').modal();
-                  setTimeout(() => {
-                    location.reload();  
-                  }, 4000);        
-                }else{
-                   this.message =  data_zoho.details.output;
-                   $('#exampleModal').modal();
-                }
+            try{
+              this.loading = true;
+              let response =  await this.sendData();
+              let data_zoho =  JSON.parse(response.data)
+              if (data_zoho.details.output == "0"){
+                this.message = "Se han registrado éxitosamente";  
+                $('#exampleModal').modal();
+                setTimeout(() => {
+                  location.reload();  
+                }, 4000);        
+              }else{
+                 this.message =  data_zoho.details.output;
+                 $('#exampleModal').modal();
+              }
+            }catch(e){
+              console.log(e);
+            } finally {
+              this.loading = false;
+            }
+
           },
     }
 });
