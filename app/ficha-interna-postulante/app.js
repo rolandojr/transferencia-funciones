@@ -45,6 +45,7 @@ var app = new Vue({
     errors: {
       codigo: null
     },
+    loading:null,
   },
   watch: {
     codigo: function (val) {
@@ -159,9 +160,10 @@ var app = new Vue({
       return data;
     },
       sendFichaInternaPostulante: async function () {
-      
-      let response =  await this.sendData();
-      let data_zoho =  JSON.parse(response.data)
+      try{
+        this.loading=true;
+        let response =  await this.sendData();
+        let data_zoho =  JSON.parse(response.data)
           if (data_zoho.details.output == "0"){
             this.message = "Se han registrado éxitosamente";  
             $('#exampleModal').modal();
@@ -172,6 +174,13 @@ var app = new Vue({
              this.message =  data_zoho.details.output;
              $('#exampleModal').modal();
           }
+      }catch(e)  {
+        console.log(e);
+      } finally  {
+        this.loading=false;
+      }
+
+      
     },
 
 

@@ -315,7 +315,13 @@
             <div class="w-100"></div>
             <hr>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" @click="sendFichaInternaPostulante" :disabled="errors.codigo">
+                <button type="submit" class="btn btn-primary" @click="sendFichaInternaPostulante" :disabled="errors.codigo || loading">
+                    <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
                     Guardar
                     <i class="fas fa-save"></i>
                 </button>
