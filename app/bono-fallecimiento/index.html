@@ -38,8 +38,8 @@
                             <option disabled value="">Seleccione un elemento</option>
                             <option value="Padre">Padre</option>
                             <option value="Madre">Madre</option>
-                            <option value="Esposo(a)">Esposo(a)</option>
-                            <option value="Hijo(a)">Hijo(a)</option>
+                            <option value="Esposo (a)">Esposo (a)</option>
+                            <option value="Hijo (a)">Hijo (a)</option>
                         </select>
                     </div>
                 </div>
@@ -52,18 +52,39 @@
                 </div>
                 
             </div>
-            <div class="row">
-                
-                <div class="col-md-12">
-                 
-                 <div class="form-group">
-                    <label for="convenio">Archivo</label>
-                    <input type="file" class="form-control-file" @change="selectFile($event)" id="convenio">
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                     <div class="form-group">
+                        <label for="convenio">Acta de defunción</label>
+                        <input type="file" class="form-control-file" id="acta_defuncion" @change="selectFile($event)" >
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="convenio">Partida de nacimiento del colaborador</label>
+                            <input type="file" class="form-control-file" id="partida_nacimiento_colaborador" @change="selectFile($event)" >
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                     <div class="form-group">
+                        <label for="convenio">Copia de DNI del familiar</label>
+                        <input type="file" class="form-control-file" id="copia_dni_familiar" @change="selectFile($event)" >
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="convenio">Copia de DNI del colaborador</label>
+                            <input type="file" class="form-control-file" id="copia_dni_colaborador" @change="selectFile($event)" >
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="w-100"></div>
+            
+            
 
             <hr>
 

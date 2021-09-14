@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descanso Medico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+        integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="lib/vue-datetime.min.css">
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <div class="container my-5 border border-secondary" id="app">
         <main class="mt-4 mb-2">
@@ -20,9 +32,10 @@
             <div class="row mb-2">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="codigo">Codigo*</label>
-                        <input type="email" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo" placeholder="Ingrese el codigo">
-                        <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
+                        <label for="codigo">Codigo <span style="color: red;">*</span> </label>
+                        <input type="email" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo"
+                            placeholder="Ingrese el codigo">
+                        <small class="color-red" v-if="errors.codigo">Introduzca un codigo válido</small>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -39,36 +52,61 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="formFile" class="form-label">Sustento</label>
-                    <input class="form-control" type="file" @change="selectFile($event)" id="sustento">
-              </div>
+            <hr>
+            <div class="container">
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Certificado medico / CITT</label>
+                        <input class="form-control" type="file" @change="selectFile($event)" id="certificado_medico">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Receta medica</label>
+                        <input class="form-control" type="file" @change="selectFile($event)" id="receta_medica">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Pago de consulta</label>
+                        <input class="form-control" type="file" @change="selectFile($event)" id="pago_consulta">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Pago de medicamentos</label>
+                        <input class="form-control" type="file" @change="selectFile($event)" id="pago_medicamentos">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Exámenes auxiliares </label>
+                        <input class="form-control" type="file" @change="selectFile($event)" id="examenes_auxiliares">
+                    </div>
+                </div>
+
             </div>
+            
             <hr>
             <div class="row ">
                 <div class="col-md-6">
                     <label for="">Fecha de Inicio</label>
                     <div class="form-group">
-                        <datetime v-model="fecha_inicio" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
+                        <datetime v-model="fecha_inicio" style="width: 100%;" zone="America/Lima"
+                            value-zone="America/Lima" format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="">Fecha de Fin</label>
                     <div class="form-group">
-                        <datetime v-model="fecha_fin" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"  format="dd-MM-yyyy"></datetime>
+                        <datetime v-model="fecha_fin" style="width: 100%;" zone="America/Lima" value-zone="America/Lima"
+                            format="dd-MM-yyyy"></datetime>
                     </div>
                 </div>
             </div>
             <hr>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-block" @click="createSolicitudDescanso" :disabled="search.ui.loading">
-                    <span
-                        v-if="search.ui.loading"
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                    ></span>
+                <button type="submit" class="btn btn-primary btn-block" @click="createSolicitudDescanso"
+                    :disabled="search.ui.loading">
+                    <span v-if="search.ui.loading" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
                     Enviar
                     <i class="fas fa-save"></i>
                 </button>
@@ -94,18 +132,23 @@
                 </div>
             </div>
         </div>
-        
-        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+        integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
     <script src="lib/luxon.min.js"></script>
     <script src="lib/vue-datetime.min.js"></script>
     <script src="lib/vuelidate.min.js"></script>
     <script src="lib/vuelidators.min.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

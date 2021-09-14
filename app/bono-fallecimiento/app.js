@@ -8,6 +8,18 @@ var app = new Vue({
       dato_familiar:null,
       validacion:null,
       file: null,
+      documento : {
+        acta_defuncion:null,
+        partida_nacimiento_colaborador:null,
+        copia_dni_familiar:null,
+        copia_dni_colaborador:null,
+      },
+      url:{
+        acta_defuncion:null,
+        partida_nacimiento_colaborador:null,
+        copia_dni_familiar:null,
+        copia_dni_colaborador:null,
+      },
       endpoint : null,
       errors:{
         codigo: null,
@@ -61,6 +73,22 @@ var app = new Vue({
           if (anularArchivo) {
             this.file = null;
           }
+          switch (event.target.id) {
+            case "acta_defuncion":
+              this.documento.acta_defuncion = this.file;
+              break;
+            case "partida_nacimiento_colaborador":
+              this.documento.partida_nacimiento_colaborador = this.file;
+              break;
+            case "copia_dni_familiar":
+              this.documento.copia_dni_familiar = this.file;
+              break;
+            case "copia_dni_colaborador":
+              this.documento.copia_dni_colaborador = this.file;
+              break;
+            default:
+              break;
+          }
         }
       },
       sendFile: async function (archivo) {
@@ -74,18 +102,26 @@ var app = new Vue({
   
         let response = await fetch("https://solucionesm4g.site:8443/files/api-touring-people/uploadPdf", requestOptions);
         let data = await response.json();
-        return data;
+        console.log(data);
+        let { id } = data;  
+        let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
+        return urlEndpoint;
   
       },
-      sendBonoFallecimiento:  async function(codigo,dni,familiar,dato_familiar,validacion,url) {
+      sendBonoFallecimiento:  async function() {
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
-          "codigo": codigo,
-          "dni": dni,
-          "familiar": familiar,
-          "dato_familiar": dato_familiar,
-          "url": url,
+          "codigo": this.codigo,
+          "dni": this.dni,
+          "familiar": this.familiar,
+          "dato_familiar": this.dato_familiar,
+          "endpoint":{
+            "acta_defuncion":this.url.acta_defuncion,
+            "partida_nacimiento_colaborador":this.url.partida_nacimiento_colaborador,
+            "copia_dni_familiar":this.url.copia_dni_familiar,
+            "copia_dni_colaborador":this.url.copia_dni_colaborador,
+          },
         });
         console.log(raw);
         var requestOptions = {
@@ -106,16 +142,23 @@ var app = new Vue({
       createSolicitudBonoFallecimiento: async function () {
         this.loading = true;
         try{
-            let data = await this.sendFile(this.file);
-            console.log(data);
-            if (!data) {
-              return;
-            }
-            let { id } = data;  
-            let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-            // console.log(urlEndpoint);
-            this.endpoint = urlEndpoint;
-            let response = await  this.sendBonoFallecimiento(this.codigo,this.dni,this.familiar,this.dato_familiar,this.validacion,this.endpoint);
+          if (this.documento.acta_defuncion) {
+            console.log("acta_defuncion");
+            this.url.acta_defuncion = await this.sendFile(this.documento.acta_defuncion);
+          }
+          if (this.documento.partida_nacimiento_colaborador) {
+            console.log("partida_nacimiento_colaborador");
+            this.url.partida_nacimiento_colaborador = await this.sendFile(this.documento.partida_nacimiento_colaborador);
+          }
+          if (this.documento.copia_dni_familiar) {
+            console.log("copia_dni_familiar");
+            this.url.copia_dni_familiar = await this.sendFile(this.documento.copia_dni_familiar);
+          }
+          if (this.documento.copia_dni_colaborador) {
+            console.log("copia_dni_colaborador");
+            this.url.copia_dni_colaborador = await this.sendFile(this.documento.copia_dni_colaborador);
+          }
+            let response = await  this.sendBonoFallecimiento();
             let data_zoho =  JSON.parse(response.data)
             console.log (response);
             if (data_zoho.details.output == "0"){
@@ -123,19 +166,16 @@ var app = new Vue({
               $('#exampleModal').modal();
               setTimeout(() => {
                 location.reload();  
-              }, 3000);        
+              }, 5000);        
             }else{
                this.message =  data_zoho.details.output;
                $('#exampleModal').modal();
             }
-          
         }catch(e){
           console.log(e);
         } finally {
           this.loading = false;
         }
-
-        
         
       },
   

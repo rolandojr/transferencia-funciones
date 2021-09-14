@@ -31,3 +31,6 @@ h2 {
 .vdatetime-input {
     width: 98%;
 }
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+}
