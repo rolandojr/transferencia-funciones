@@ -19,14 +19,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="codigo">Cod. de Empleado</label>
+                        <label for="codigo">Cod. de Empleado <small style="color: red;">*</small> </label>
                         <input type="text" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo" placeholder="Ingrese el codigo">
                         <small class="color-red" v-if="errors.codigo" >Introduzca un codigo válido</small>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="dni">DNI</label>
+                        <label for="dni">DNI del fallecido</label>
                         <input type="text" class="form-control" id="dni" v-model="dni" aria-describedby="dni" placeholder="Ingrese DNI">
                         <small class="color-red" v-if="errors.dni" >Introduzca DNI</small>
                     </div>

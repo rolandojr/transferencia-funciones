@@ -172,11 +172,11 @@ var app = new Vue({
                $('#exampleModal').modal();
             }
         }catch(e){
-          console.log(e);
+          this.message = e;
+          $('#exampleModal').modal();
         } finally {
           this.loading = false;
         }
-        
       },
   
     }
