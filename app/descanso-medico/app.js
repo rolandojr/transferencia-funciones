@@ -55,6 +55,11 @@ var app = new Vue({
       // console.log(this.file);
       let anularArchivo = false;
       if (this.file) {
+        if (this.file.size === 0) {
+          this.message = "Ha ingresado un archivo vacio, este no se considerará en el registro, por favor  cambie de archivo ";
+          $('#exampleModal').modal();
+          return 
+        }
         let sizeFile = this.file.size / (1024 * 1024);
         if (sizeFile > 5.0) {
           this.message = "El tamaño no debe superar los 5 MB";
@@ -96,10 +101,24 @@ var app = new Vue({
 
       let response = await fetch("https://solucionesm4g.site:8443/files/api-touring-people/uploadPdf", requestOptions);
       let data = await response.json();
-      let { id } = data;
-      let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-      return urlEndpoint;
+      // console.log(data);
+      if ( !this.isObjEmpty(data) ) {
+        console.log(data);
+        let { id } = data;
+        let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
+        return urlEndpoint;
+      }else{
+        return 1;
+      } 
+      
 
+    },
+    isObjEmpty : function (obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) return false;
+      }
+    
+      return true;
     },
     sendSolicitudDescanso: async function () {
 
@@ -157,24 +176,51 @@ var app = new Vue({
           this.fecha_fin_formato = this.convertDateFormat(this.fecha_fin);
         }
         if (this.documento.certificado_medico) {
-          console.log("certificado medico");
+          
           this.url.certificado_medico = await this.sendFile(this.documento.certificado_medico);
+
+          if (this.url.certificado_medico == 1) {
+            this.message = "No se pudo cargar el archivo 'Certificado Medico', porfavor, intente nuevamente o cambie el archivo";
+            $('#exampleModal').modal();
+            return ;
+          }
+          
         }
         if (this.documento.receta_medica) {
           console.log("receta medica");
           this.url.receta_medica = await this.sendFile(this.documento.receta_medica);
+          if (this.url.receta_medica == 1) {
+            this.message = "No se pudo cargar el archivo 'Receta Medica', porfavor, intente nuevamente o cambie el archivo";
+            $('#exampleModal').modal();
+            return ;
+          }
         }
         if (this.documento.pago_consulta) {
           console.log("pago consulta");
           this.url.pago_consulta = await this.sendFile(this.documento.pago_consulta);
+          if (this.url.pago_consulta == 1) {
+            this.message = "No se pudo cargar el archivo 'Pago de Consulta', porfavor, intente nuevamente o cambie el archivo";
+            $('#exampleModal').modal();
+            return ;
+          }
         }
         if (this.documento.pago_medicamentos) {
           console.log("pago medicamento");
           this.url.pago_medicamentos = await this.sendFile(this.documento.pago_medicamentos);
+          if (this.url.pago_medicamentos == 1) {
+            this.message = "No se pudo cargar el archivo 'Pago de Medicamentos', porfavor, intente nuevamente o cambie el archivo";
+            $('#exampleModal').modal();
+            return ;
+          }
         }
         if (this.documento.examenes_auxiliares) {
           console.log("examenes auxiliares");
           this.url.examenes_auxiliares = await this.sendFile(this.documento.examenes_auxiliares);
+          if (this.url.examenes_auxiliares == 1) {
+            this.message = "No se pudo cargar el archivo 'Examenes Auxiliares', porfavor, intente nuevamente o cambie el archivo";
+            $('#exampleModal').modal();
+            return ;
+          }
         }
         // console.log(urlEndpoint)
           let response = await this.sendSolicitudDescanso();
