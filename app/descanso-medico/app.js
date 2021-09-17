@@ -52,7 +52,6 @@ var app = new Vue({
     selectFile: function (event) {
       console.log(event.target.id);
       this.file = event.target.files[0];
-      // console.log(this.file);
       let anularArchivo = false;
       if (this.file) {
         if (this.file.size === 0) {
@@ -88,6 +87,31 @@ var app = new Vue({
           default:
             break;
         }
+      }else{
+        switch (event.target.id) {
+          case "certificado_medico":
+            this.documento.certificado_medico = null;
+            this.url.certificado_medico = null;
+            break;
+          case "receta_medica":
+            this.documento.receta_medica = null;
+            this.url.receta_medica = null;
+            break;
+          case "pago_consulta":
+            this.documento.pago_consulta = null;
+            this.url.pago_consulta = null;
+            break;
+          case "pago_medicamentos":
+            this.documento.pago_medicamentos = null;
+            this.url.pago_medicamentos = null;
+            break;
+          case "examenes_auxiliares":
+            this.documento.examenes_auxiliares = null;
+            this.url.examenes_auxiliares = null;
+            break;
+          default:
+            break;
+        }
       }
     },
     sendFile: async function (archivo) {
@@ -110,8 +134,6 @@ var app = new Vue({
       }else{
         return 1;
       } 
-      
-
     },
     isObjEmpty : function (obj) {
       for (var prop in obj) {
@@ -139,7 +161,7 @@ var app = new Vue({
         "fecha_fin": this.fecha_fin_formato,
       });
 
-      // console.log(raw);
+      console.log(raw);
 
       var requestOptions = {
         method: 'POST',
@@ -230,7 +252,7 @@ var app = new Vue({
             this.message = "Se han registrado éxitosamente";
             $('#exampleModal').modal();
             setTimeout(() => {
-              location.reload();
+              // location.reload();
             }, 5000);
           } else {
             this.message = data_zoho.details.output;

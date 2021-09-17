@@ -104,7 +104,7 @@
             <hr>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary btn-block" @click="createSolicitudDescanso"
-                    :disabled="search.ui.loading">
+                    :disabled="search.ui.loading  || ( documento.certificado_medico==null  && documento.receta_medica==null && documento.pago_consulta==null && documento.pago_medicamentos==null && documento.examenes_auxiliares==null )">
                     <span v-if="search.ui.loading" class="spinner-border spinner-border-sm" role="status"
                         aria-hidden="true"></span>
                     Enviar

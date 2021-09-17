@@ -90,7 +90,7 @@
 
             <div class="d-flex justify-content-center">
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" @click="createSolicitudBonoFallecimiento"  :disabled="errors.codigo || loading "  >
+                <button type="submit" class="btn btn-primary" @click="createSolicitudBonoFallecimiento"  :disabled="errors.codigo || loading || (documento.acta_defuncion==null && documento.partida_nacimiento_colaborador==null && documento.copia_dni_familiar==null && documento.copia_dni_colaborador==null ) "  >
                     <span
                         v-if="loading"
                         class="spinner-border spinner-border-sm"

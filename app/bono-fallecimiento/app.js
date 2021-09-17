@@ -61,10 +61,18 @@ var app = new Vue({
     },
     methods: {
       selectFile: function (event) {
+        console.log("file");
+        console.log(event.target.files)
         this.file = event.target.files[0];
         let anularArchivo = false;
         if (this.file) {
+          if (this.file.size === 0) {
+            this.message = "Ha ingresado un archivo vacio, este no se considerará en el registro, por favor  cambie de archivo ";
+            $('#exampleModal').modal();
+            return 
+          }
           let sizeFile = this.file.size / (1024*1024);
+
           if (sizeFile > 5.0 ) {
             this.message = "El tamaño no debe superar los 5 MB";
             $('#exampleModal').modal();
@@ -89,6 +97,27 @@ var app = new Vue({
             default:
               break;
           }
+        }else{
+          switch (event.target.id) {
+            case "acta_defuncion":
+              this.documento.acta_defuncion = null;
+              this.url.acta_defuncion = null;
+              break;
+            case "partida_nacimiento_colaborador":
+              this.documento.partida_nacimiento_colaborador = null;
+              this.url.partida_nacimiento_colaborador = null;
+              break;
+            case "copia_dni_familiar":
+              this.documento.copia_dni_familiar = null;
+              this.url.copia_dni_familiar = null;
+              break;
+            case "copia_dni_colaborador":
+              this.documento.copia_dni_colaborador = null;
+              this.url.copia_dni_colaborador = null;
+              break;
+            default:
+              break;
+          }
         }
       },
       sendFile: async function (archivo) {
@@ -102,11 +131,21 @@ var app = new Vue({
   
         let response = await fetch("https://solucionesm4g.site:8443/files/api-touring-people/uploadPdf", requestOptions);
         let data = await response.json();
-        console.log(data);
-        let { id } = data;  
-        let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
-        return urlEndpoint;
+        if ( !this.isObjEmpty(data) ) {
+          console.log(data);
+          let { id } = data;
+          let urlEndpoint = `https://solucionesm4g.site:8443/files/api-touring-people/downloadPdf/${id}`;
+          return urlEndpoint;
+        }else{
+          return 1;
+        } 
   
+      },
+      isObjEmpty : function (obj) {
+        for (var prop in obj) {
+          if (obj.hasOwnProperty(prop)) return false;
+        }
+        return true;
       },
       sendBonoFallecimiento:  async function() {
         let myHeaders = new Headers();
@@ -145,18 +184,38 @@ var app = new Vue({
           if (this.documento.acta_defuncion) {
             console.log("acta_defuncion");
             this.url.acta_defuncion = await this.sendFile(this.documento.acta_defuncion);
+            if (this.url.acta_defuncion == 1) {
+              this.message = "No se pudo cargar el archivo 'Acta de Defuncion', porfavor, intente nuevamente o cambie el archivo";
+              $('#exampleModal').modal();
+              return ;
+            }
           }
           if (this.documento.partida_nacimiento_colaborador) {
             console.log("partida_nacimiento_colaborador");
             this.url.partida_nacimiento_colaborador = await this.sendFile(this.documento.partida_nacimiento_colaborador);
+            if (this.url.partida_nacimiento_colaborador == 1) {
+              this.message = "No se pudo cargar el archivo 'Partida de Nacimiento del Colaborador', porfavor, intente nuevamente o cambie el archivo";
+              $('#exampleModal').modal();
+              return ;
+            }
           }
           if (this.documento.copia_dni_familiar) {
             console.log("copia_dni_familiar");
             this.url.copia_dni_familiar = await this.sendFile(this.documento.copia_dni_familiar);
+            if (this.url.copia_dni_familiar == 1) {
+              this.message = "No se pudo cargar el archivo 'Copia DNI del Familiar', porfavor, intente nuevamente o cambie el archivo";
+              $('#exampleModal').modal();
+              return ;
+            }
           }
           if (this.documento.copia_dni_colaborador) {
             console.log("copia_dni_colaborador");
             this.url.copia_dni_colaborador = await this.sendFile(this.documento.copia_dni_colaborador);
+            if (this.url.copia_dni_colaborador == 1) {
+              this.message = "No se pudo cargar el archivo 'Copia DNI del Colaborador', porfavor, intente nuevamente o cambie el archivo";
+              $('#exampleModal').modal();
+              return ;
+            }
           }
             let response = await  this.sendBonoFallecimiento();
             let data_zoho =  JSON.parse(response.data)
@@ -165,7 +224,7 @@ var app = new Vue({
               this.message = "Se han registrado éxitosamente";  
               $('#exampleModal').modal();
               setTimeout(() => {
-                location.reload();  
+                // location.reload();  
               }, 5000);        
             }else{
                this.message =  data_zoho.details.output;
