@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licencias</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/vue-datetime.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container my-5 border border-secondary" id="app">
+        <main class="mt-4 mb-2">
+            <h1 class="text-center">Solicitud de Licencias</h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="codigo">Cod. de Empleado <small style="color: red;">*</small> </label>
+                        <input type="text" class="form-control" id="codigo" v-model="codigo" aria-describedby="codigo"
+                            placeholder="Ingrese el codigo">
+                        <small class="color-red" v-if="errors.codigo">Introduzca un codigo válido</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="">Desde <span style="color: red;">*</span> </label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime style="width: 100%;" v-model="fecha_inicio" zone="America/Lima" value-zone="America/Lima"
+                            format="dd-MM-yyyy"></datetime>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="">Hasta <span style="color: red;">*</span> </label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <datetime style="width: 100%;" v-model="fecha_fin" zone="America/Lima" value-zone="America/Lima"
+                            format="dd-MM-yyyy"></datetime>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="familiar">Tipo de Permiso <span style="color: red;">*</span> </label>
+                        <select class="form-control" v-model="tipo_licencia">
+                            <option disabled value="">Seleccione un elemento</option>
+                            <option>Vacaciones</option>
+                            <option>Permiso sin goce de haber</option>
+                            <option>Permiso con goce de haber</option>
+                            <option>Falta Justificada</option>
+                            <option>Falta Injustificada</option>
+                            <option>Compensación</option>
+                            <option>Onomástico</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="dato_familiar">Motivo de permiso <span style="color: red;">*</span> </label>
+                        <textarea class="form-control" v-model="motivo" rows="3" placeholder="Ingrese un motivo"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="convenio">Sustento <span style="color: red;">*</span> </label>
+                    <input type="file" class="form-control-file" @change="selectFile($event)">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" @click="createSolicitudLicencia"
+                    :disabled="errors.codigo || loading">
+                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                    Enviar
+                    <i class="fas fa-arrow-alt-circle-right"></i>
+                </button>
+            </div>
+        </main>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Solicitud de Licencias</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{message}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <script src="lib/luxon.min.js"></script>
+    <script src="lib/vue-datetime.min.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
